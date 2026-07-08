@@ -1,0 +1,26 @@
+# Large raw data and generated imaging outputs
+*.ARW
+*.arw
+*.JPG
+*.jpg
+*.jpeg
+*.JPEG
+*.tif
+*.tiff
+*.TIF
+*.TIFF
+*.rek
+
+# Raw photo sidecars
+*.xmp
+*.XMP
+
+# Local logs and temporary files
+*.log
+*.err.log
+*.tmp
+~$*
+
+# Autodesk backup folders
+OldVersions/
+**/OldVersions/

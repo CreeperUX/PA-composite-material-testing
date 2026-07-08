@@ -1,0 +1,2830 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>弯折测试数据分析</title>
+  <style>
+    :root {
+      --bg: #e9ecef;
+      --panel: #ffffff;
+      --panel-soft: #f5f5f2;
+      --ink: #15171a;
+      --muted: #60656b;
+      --line: #b9bfc6;
+      --accent: #202326;
+      --accent-2: #315fba;
+      --good: #16875d;
+      --warn: #b45a12;
+      --danger: #b3261e;
+      --shadow: 0 10px 26px rgba(18, 24, 31, 0.12);
+      --radius: 2px;
+      font-family: "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--bg);
+      font-size: 13px;
+    }
+
+    button, input, select {
+      font: inherit;
+    }
+
+    button {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      color: var(--ink);
+      border-radius: var(--radius);
+      padding: 8px 11px;
+      cursor: pointer;
+      min-height: 36px;
+    }
+
+    button.primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+      font-weight: 650;
+    }
+
+    button.icon {
+      width: 36px;
+      padding: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+    }
+
+    input, select {
+      width: 100%;
+      min-height: 34px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 7px 9px;
+      background: #fff;
+      color: var(--ink);
+    }
+
+    .file-control {
+      display: grid;
+      grid-template-columns: 112px minmax(0, 1fr);
+      align-items: center;
+      border: 1px solid var(--line);
+      background: #fff;
+      min-height: 40px;
+    }
+
+    .file-input {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .file-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      align-self: stretch;
+      margin: 0;
+      border-right: 1px solid var(--line);
+      background: var(--panel-soft);
+      color: var(--ink);
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .file-name {
+      min-width: 0;
+      padding: 0 10px;
+      color: var(--muted);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 650;
+    }
+
+    .app {
+      width: min(1480px, calc(100% - 28px));
+      min-height: calc(100vh - 28px);
+      margin: 14px auto;
+      display: grid;
+      grid-template-columns: 360px minmax(0, 1fr);
+      border: 1px solid #9da4ad;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+
+    aside {
+      background: #f7f7f4;
+      border-right: 1px solid var(--line);
+      padding: 16px;
+      overflow: auto;
+    }
+
+    main {
+      min-width: 0;
+      padding: 16px;
+      background: #eef0f2;
+      overflow: auto;
+    }
+
+    .brand {
+      display: flex;
+      align-items: stretch;
+      gap: 10px;
+      margin-bottom: 14px;
+      padding: 10px;
+      border: 2px solid var(--ink);
+      background: #fff;
+    }
+
+    .brand-mark {
+      width: 48px;
+      min-height: 44px;
+      border-radius: 0;
+      border: 1px solid var(--ink);
+      background: #fff;
+      display: grid;
+      place-items: center;
+      color: var(--ink);
+      font-weight: 800;
+      letter-spacing: 0;
+      font-size: 12px;
+    }
+
+    .brand h1 {
+      font-size: 18px;
+      margin: 0;
+      letter-spacing: 0;
+    }
+
+    .brand p {
+      margin: 1px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .section {
+      border: 1px solid var(--line);
+      padding: 12px;
+      margin-top: 12px;
+      background: #fff;
+    }
+
+    .section:first-of-type {
+      border-top: 1px solid var(--line);
+      padding-top: 12px;
+      margin-top: 0;
+    }
+
+    .section h2 {
+      margin: -12px -12px 12px;
+      padding: 6px 10px;
+      font-size: 12px;
+      letter-spacing: 0;
+      background: #e5e7ea;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .grid2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .grid3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+    }
+
+    .grid4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+
+    .param-group {
+      border: 1px solid var(--line);
+      background: #fafafa;
+      padding: 10px;
+      margin-top: 10px;
+    }
+
+    .param-group h3 {
+      margin: 0 0 9px;
+      font-size: 12px;
+      color: var(--ink);
+    }
+
+    .is-hidden {
+      display: none !important;
+    }
+
+    .field {
+      margin-bottom: 10px;
+    }
+
+    .check-row {
+      display: grid;
+      grid-template-columns: 18px 1fr;
+      align-items: center;
+      gap: 8px;
+      margin: 7px 0;
+    }
+
+    .check-row input {
+      min-height: 0;
+      width: 16px;
+      height: 16px;
+    }
+
+    .swatch {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 6px;
+      vertical-align: -1px;
+    }
+
+    .series-list {
+      max-height: 270px;
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+      padding: 7px;
+    }
+
+    .series-item {
+      display: grid;
+      grid-template-columns: 18px 1fr;
+      gap: 8px;
+      padding: 5px 4px;
+      border-radius: 6px;
+    }
+
+    .series-item:hover {
+      background: #edf4f8;
+    }
+
+    .series-item input {
+      min-height: 0;
+      width: 16px;
+      height: 16px;
+      margin-top: 1px;
+    }
+
+    .series-title {
+      font-weight: 650;
+      line-height: 1.2;
+    }
+
+    .series-meta {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 2px;
+    }
+
+    .toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+      padding: 10px 12px;
+      background: #fff;
+      border: 1px solid var(--line);
+    }
+
+    .status {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(140px, 1fr));
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .kpi, .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: none;
+    }
+
+    .kpi {
+      padding: 12px;
+      min-height: 82px;
+    }
+
+    .kpi .label {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 650;
+      margin-bottom: 8px;
+    }
+
+    .kpi .value {
+      font-size: 24px;
+      font-weight: 750;
+      line-height: 1;
+    }
+
+    .kpi .detail {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 7px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(360px, 0.65fr);
+      gap: 14px;
+      align-items: start;
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+      background: var(--panel-soft);
+    }
+
+    .panel-header h2 {
+      margin: 0;
+      font-size: 15px;
+    }
+
+    .panel-body {
+      padding: 12px 14px 14px;
+    }
+
+    .chart-wrap {
+      position: relative;
+      width: 100%;
+      height: 500px;
+      border: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .chart-wrap.small {
+      height: 300px;
+    }
+
+    .chart-wrap.paper {
+      height: 430px;
+      background: #fff;
+    }
+
+    canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 12px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .chart-tools {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .chart-tools button {
+      min-height: 30px;
+      padding: 5px 9px;
+      font-size: 12px;
+    }
+
+    .chart-tools select,
+    .chart-tools input {
+      min-height: 30px;
+      padding: 5px 8px;
+      font-size: 12px;
+      width: auto;
+      max-width: 180px;
+    }
+
+    .chart-hint {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 8px;
+    }
+
+    .tabs {
+      display: inline-flex;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      flex-wrap: wrap;
+      background: var(--panel-soft);
+    }
+
+    .tabs button {
+      border: 0;
+      border-right: 1px solid var(--line);
+      border-radius: 0;
+      min-height: 32px;
+      padding: 6px 10px;
+      background: transparent;
+    }
+
+    .tabs button:last-child { border-right: 0; }
+    .tabs button.active {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+
+    th, td {
+      border-bottom: 1px solid var(--line);
+      padding: 7px 8px;
+      text-align: left;
+      vertical-align: top;
+      white-space: nowrap;
+    }
+
+    th {
+      color: var(--muted);
+      font-weight: 750;
+      background: #eceef0;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+
+    .table-wrap {
+      max-height: 410px;
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+
+    .note {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .calc-note {
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--panel-soft);
+      padding: 8px 9px;
+      margin: -2px 0 10px;
+    }
+
+    .paper-meta {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+      margin-top: 8px;
+    }
+
+    .empty {
+      height: 100%;
+      display: grid;
+      place-items: center;
+      color: var(--muted);
+      text-align: center;
+      padding: 30px;
+    }
+
+    @media (max-width: 1100px) {
+      .app { width: 100%; min-height: 100vh; margin: 0; grid-template-columns: 1fr; border: 0; }
+      aside { border-right: 0; border-bottom: 1px solid var(--line); }
+      .layout { grid-template-columns: 1fr; }
+      .kpis { grid-template-columns: repeat(2, minmax(140px, 1fr)); }
+      .chart-wrap { height: 430px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside>
+      <div class="brand">
+        <div class="brand-mark">3PBV</div>
+        <div>
+          <h1>弯折测试数据分析</h1>
+          <p>屈服特征 · 标准化 · 类型修正</p>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>数据源</h2>
+        <div class="field">
+          <label for="languageMode">界面语言</label>
+          <select id="languageMode">
+            <option value="zh" selected>中文</option>
+            <option value="en">English</option>
+          </select>
+        </div>
+        <div class="field">
+          <button class="primary" id="loadDefault">读取 数据分析.csv</button>
+        </div>
+        <div class="field">
+          <label for="fileInput">选择 CSV</label>
+          <div class="file-control">
+            <input class="file-input" id="fileInput" type="file" accept=".csv,text/csv">
+            <label class="file-button" id="fileButton" for="fileInput">选择文件</label>
+            <span class="file-name" id="fileName">未选择文件</span>
+          </div>
+        </div>
+        <div class="note" id="sourceNote">等待加载数据。</div>
+      </div>
+
+      <div class="section">
+        <h2>试件类型</h2>
+        <div class="check-row">
+          <input id="type3k" type="checkbox" checked>
+          <div><span class="swatch" style="background:#315fba"></span>Roving</div>
+        </div>
+        <div class="check-row">
+          <input id="type1x1" type="checkbox" checked>
+          <div><span class="swatch" style="background:#16875d"></span>Plain</div>
+        </div>
+        <div class="check-row">
+          <input id="type2x2" type="checkbox" checked>
+          <div><span class="swatch" style="background:#b45a12"></span>Twill</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>系列选择</h2>
+        <div class="grid2">
+          <button id="selectAll">全选</button>
+          <button id="selectNone">清空</button>
+        </div>
+        <div class="field" style="margin-top:10px">
+          <label for="seriesFilter">搜索</label>
+          <input id="seriesFilter" type="search" placeholder="例如 Roving 12 或 01_24">
+        </div>
+        <div class="series-list" id="seriesList"></div>
+      </div>
+
+      <div class="section">
+        <h2>二级筛选</h2>
+        <div class="field">
+          <label for="batchFilter">测试批次</label>
+          <select id="batchFilter">
+            <option value="all">全部测试结果</option>
+          </select>
+        </div>
+        <div class="grid2">
+          <div class="field">
+            <label for="uidMin">编号从</label>
+            <input id="uidMin" type="number" min="1" max="12" step="1" placeholder="1">
+          </div>
+          <div class="field">
+            <label for="uidMax">编号到</label>
+            <input id="uidMax" type="number" min="1" max="12" step="1" placeholder="12">
+          </div>
+        </div>
+        <div class="grid2">
+          <div class="field">
+            <label for="thicknessMin">厚度最小</label>
+            <input id="thicknessMin" type="number" step="0.01" placeholder="自动">
+          </div>
+          <div class="field">
+            <label for="thicknessMax">厚度最大</label>
+            <input id="thicknessMax" type="number" step="0.01" placeholder="自动">
+          </div>
+        </div>
+        <div class="grid2">
+          <div class="field">
+            <label for="sampleMin">采样序号从</label>
+            <input id="sampleMin" type="number" min="1" step="1" placeholder="1">
+          </div>
+          <div class="field">
+            <label for="sampleMax">采样序号到</label>
+            <input id="sampleMax" type="number" min="1" step="1" placeholder="末尾">
+          </div>
+        </div>
+        <button id="resetFilters">重置二级筛选</button>
+      </div>
+
+      <div class="section">
+        <h2>参考线</h2>
+        <div class="field">
+          <label for="referenceMode">整组参考线</label>
+          <select id="referenceMode">
+            <option value="none">不显示</option>
+            <option value="typeMean" selected>各类型均值线</option>
+            <option value="allMean">全部选中均值线</option>
+            <option value="both">各类型 + 全部均值线</option>
+          </select>
+        </div>
+        <div class="grid2">
+          <div class="field">
+            <label for="referencePoints">重采样点数</label>
+            <input id="referencePoints" type="number" min="50" max="500" step="10" value="180">
+          </div>
+          <div class="field">
+            <label for="referenceWidth">线宽</label>
+            <input id="referenceWidth" type="number" min="1" max="6" step="0.5" value="3">
+          </div>
+        </div>
+        <div class="note" id="referenceNote">均值线按当前筛选后的曲线重采样计算，用于观察整组趋势。</div>
+      </div>
+
+      <div class="section">
+        <h2>标准化</h2>
+        <div class="field">
+          <label for="thicknessMode">厚度处理</label>
+          <select id="thicknessMode">
+            <option value="none">不进行标准化</option>
+            <option value="inertiaReference" selected>截面惯性矩参考 I₀/I</option>
+            <option value="sandwichFace">D7249 简化表层应力</option>
+            <option value="arealSpecific">基于面密度的比性能</option>
+          </select>
+        </div>
+        <div class="param-group" data-standardization-group="reference">
+          <h3 data-i18n="referenceGroup">参考厚度</h3>
+          <div class="field">
+            <label for="referenceThickness">h₀ [mm]</label>
+            <input id="referenceThickness" type="number" step="0.01" value="2.00">
+          </div>
+        </div>
+
+        <div class="param-group" data-standardization-group="face">
+          <h3 data-i18n="faceGroup">D7249 表层参数</h3>
+          <div class="grid3">
+            <div class="field">
+              <label for="faceThickness3k">Roving 表层厚度 t [mm]</label>
+              <input id="faceThickness3k" type="number" min="0.01" step="0.001" value="0.78">
+            </div>
+            <div class="field">
+              <label for="faceThickness1x1">Plain 表层厚度 t [mm]</label>
+              <input id="faceThickness1x1" type="number" min="0.01" step="0.001" value="0.576">
+            </div>
+            <div class="field">
+              <label for="faceThickness2x2">Twill 表层厚度 t [mm]</label>
+              <input id="faceThickness2x2" type="number" min="0.01" step="0.001" value="0.568">
+            </div>
+          </div>
+          <div class="note calc-note" id="faceThicknessEstimate">按两侧各 4 层纤维的三明治结构，使用材料类型对应的单侧表层厚度。</div>
+        </div>
+
+        <div class="param-group" data-standardization-group="areal">
+          <h3 data-i18n="arealGroup">面密度比性能</h3>
+          <div class="field">
+            <label for="arealPreMode">预先标准化方式</label>
+            <select id="arealPreMode">
+              <option value="none" selected>不预先标准化</option>
+              <option value="inertiaReference">截面惯性矩参考 I₀/I</option>
+              <option value="sandwichFace">D7249 简化表层应力</option>
+            </select>
+          </div>
+          <div class="grid3">
+            <div class="field">
+              <label for="arealDensity3k">Roving 面密度 [g/m²]</label>
+              <input id="arealDensity3k" type="number" min="0.01" step="0.1" value="132.9">
+            </div>
+            <div class="field">
+              <label for="arealDensity1x1">Plain 面密度 [g/m²]</label>
+              <input id="arealDensity1x1" type="number" min="0.01" step="0.1" value="132.9">
+            </div>
+            <div class="field">
+              <label for="arealDensity2x2">Twill 面密度 [g/m²]</label>
+              <input id="arealDensity2x2" type="number" min="0.01" step="0.1" value="132.9">
+            </div>
+          </div>
+        </div>
+
+        <div class="param-group" data-standardization-group="factor">
+          <h3 data-i18n="factorGroup">材料类型修正</h3>
+          <div class="grid3">
+            <div class="field">
+              <label for="factor3k">Roving 系数</label>
+              <input id="factor3k" type="number" step="0.01" value="1">
+            </div>
+            <div class="field">
+              <label for="factor1x1">Plain 系数</label>
+              <input id="factor1x1" type="number" step="0.01" value="1">
+            </div>
+            <div class="field">
+              <label for="factor2x2">Twill 系数</label>
+              <input id="factor2x2" type="number" step="0.01" value="1">
+            </div>
+          </div>
+        </div>
+        <div class="note" id="normalizationNote">截面惯性矩参考模式按整矩形截面 I = b h³ / 12，把曲线换算到参考厚度 h₀；当前数据无宽度列时默认 b 一致。</div>
+      </div>
+
+      <div class="section">
+        <h2>屈服识别</h2>
+        <div class="field">
+          <label for="elasticFraction">初始弹性段比例</label>
+          <input id="elasticFraction" type="number" min="0.05" max="0.45" step="0.01" value="0.18">
+        </div>
+        <div class="field">
+          <label for="yieldDrop">斜率衰减阈值</label>
+          <input id="yieldDrop" type="number" min="0.2" max="0.95" step="0.05" value="0.75">
+        </div>
+        <div class="note" id="yieldNote">屈服点按平滑后局部斜率低于初始斜率阈值识别；若未出现明显衰减，则取峰值点作为特征点。</div>
+      </div>
+    </aside>
+
+    <main>
+      <div class="toolbar">
+        <div>
+          <div class="status" id="status">未加载数据</div>
+        </div>
+        <div class="tabs" aria-label="chart mode">
+          <button id="rawTab" class="active">原始</button>
+          <button id="normTab">标准化</button>
+          <button id="avgTab">类型均值</button>
+          <button id="linearAvgTab">类型均值：带裁切</button>
+        </div>
+      </div>
+
+      <section class="kpis">
+        <div class="kpi">
+          <div class="label">试件数量</div>
+          <div class="value" id="kpiSpecimens">0</div>
+          <div class="detail" id="kpiTypes">-</div>
+        </div>
+        <div class="kpi">
+          <div class="label">采样点</div>
+          <div class="value" id="kpiPoints">0</div>
+          <div class="detail">当前筛选范围</div>
+        </div>
+        <div class="kpi">
+          <div class="label">平均峰值</div>
+          <div class="value" id="kpiPeak">-</div>
+          <div class="detail" id="kpiPeakUnit">MPa</div>
+        </div>
+        <div class="kpi">
+          <div class="label">平均屈服点</div>
+          <div class="value" id="kpiYield">-</div>
+          <div class="detail">自动识别</div>
+        </div>
+      </section>
+
+      <div class="layout">
+        <section class="panel">
+          <div class="panel-header">
+            <h2>弯曲应力-变形曲线</h2>
+            <div class="chart-tools">
+              <button id="zoomIn">放大</button>
+              <button id="zoomOut">缩小</button>
+              <button id="resetZoom">重置视图</button>
+              <div class="legend" id="curveLegend"></div>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div class="chart-wrap">
+              <canvas id="curveCanvas"></canvas>
+            </div>
+            <div class="chart-hint">滚轮缩放，拖拽平移；重置视图会匹配当前筛选后的数据范围。</div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-header">
+            <h2>屈服特征图</h2>
+            <div class="legend">
+              <span><span class="swatch" style="background:#0f7b8f"></span>屈服</span>
+              <span><span class="swatch" style="background:#b3261e"></span>峰值</span>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div class="chart-wrap small">
+              <canvas id="yieldCanvas"></canvas>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <section class="panel" style="margin-top:14px">
+        <div class="panel-header">
+          <h2>材料类型对比</h2>
+          <div class="status" id="summaryStatus">-</div>
+        </div>
+        <div class="panel-body">
+          <div class="table-wrap">
+            <table id="summaryTable"></table>
+          </div>
+        </div>
+      </section>
+      <section class="panel" style="margin-top:14px">
+        <div class="panel-header">
+          <h2 data-i18n="paperFigureTitle">论文统计图</h2>
+          <div class="chart-tools">
+            <select id="paperMetric">
+              <option value="peak" selected>峰值应力</option>
+              <option value="yield">屈服应力</option>
+              <option value="stiffness">初始斜率</option>
+              <option value="energy">曲线面积</option>
+              <option value="thickness">厚度</option>
+            </select>
+            <select id="paperError">
+              <option value="sd" selected>SD</option>
+              <option value="sem">SEM</option>
+              <option value="ci95">95% CI</option>
+              <option value="none">无误差条</option>
+            </select>
+            <select id="paperFormat">
+              <option value="png" selected>PNG 600 dpi</option>
+              <option value="svg">SVG</option>
+              <option value="csv">CSV</option>
+            </select>
+            <input id="paperTitle" type="text" placeholder="Figure title">
+            <button id="exportPaperFigure">导出</button>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="chart-wrap paper">
+            <canvas id="paperCanvas"></canvas>
+          </div>
+          <div class="paper-meta" id="paperMeta">统计图基于当前筛选、当前原始/标准化视图和屈服识别参数生成。</div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const initialLanguage = new URLSearchParams(window.location.search).get("lang") === "en" ? "en" : "zh";
+
+    const state = {
+      rows: [],
+      specimens: [],
+      selected: new Set(),
+      chartMode: "raw",
+      language: initialLanguage,
+      lastPaperStats: [],
+      curveView: null,
+      currentCurveBounds: null,
+      dragging: null,
+      colors: { "3k": "#315fba", "1x1": "#16875d", "2x2": "#b45a12", "未知": "#6b7280" }
+    };
+
+    const faceThicknessDefaults = { "3k": 0.78, "1x1": 0.576, "2x2": 0.568 };
+
+    const els = {
+      languageMode: document.getElementById("languageMode"),
+      loadDefault: document.getElementById("loadDefault"),
+      fileInput: document.getElementById("fileInput"),
+      fileButton: document.getElementById("fileButton"),
+      fileName: document.getElementById("fileName"),
+      sourceNote: document.getElementById("sourceNote"),
+      status: document.getElementById("status"),
+      seriesList: document.getElementById("seriesList"),
+      seriesFilter: document.getElementById("seriesFilter"),
+      selectAll: document.getElementById("selectAll"),
+      selectNone: document.getElementById("selectNone"),
+      batchFilter: document.getElementById("batchFilter"),
+      uidMin: document.getElementById("uidMin"),
+      uidMax: document.getElementById("uidMax"),
+      thicknessMin: document.getElementById("thicknessMin"),
+      thicknessMax: document.getElementById("thicknessMax"),
+      sampleMin: document.getElementById("sampleMin"),
+      sampleMax: document.getElementById("sampleMax"),
+      resetFilters: document.getElementById("resetFilters"),
+      referenceMode: document.getElementById("referenceMode"),
+      referencePoints: document.getElementById("referencePoints"),
+      referenceWidth: document.getElementById("referenceWidth"),
+      zoomIn: document.getElementById("zoomIn"),
+      zoomOut: document.getElementById("zoomOut"),
+      resetZoom: document.getElementById("resetZoom"),
+      normalizationNote: document.getElementById("normalizationNote"),
+      type3k: document.getElementById("type3k"),
+      type1x1: document.getElementById("type1x1"),
+      type2x2: document.getElementById("type2x2"),
+      thicknessMode: document.getElementById("thicknessMode"),
+      referenceThickness: document.getElementById("referenceThickness"),
+      faceThickness3k: document.getElementById("faceThickness3k"),
+      faceThickness1x1: document.getElementById("faceThickness1x1"),
+      faceThickness2x2: document.getElementById("faceThickness2x2"),
+      faceThicknessEstimate: document.getElementById("faceThicknessEstimate"),
+      arealPreMode: document.getElementById("arealPreMode"),
+      arealDensity3k: document.getElementById("arealDensity3k"),
+      arealDensity1x1: document.getElementById("arealDensity1x1"),
+      arealDensity2x2: document.getElementById("arealDensity2x2"),
+      factor3k: document.getElementById("factor3k"),
+      factor1x1: document.getElementById("factor1x1"),
+      factor2x2: document.getElementById("factor2x2"),
+      elasticFraction: document.getElementById("elasticFraction"),
+      yieldDrop: document.getElementById("yieldDrop"),
+      rawTab: document.getElementById("rawTab"),
+      normTab: document.getElementById("normTab"),
+      avgTab: document.getElementById("avgTab"),
+      linearAvgTab: document.getElementById("linearAvgTab"),
+      curveCanvas: document.getElementById("curveCanvas"),
+      yieldCanvas: document.getElementById("yieldCanvas"),
+      paperCanvas: document.getElementById("paperCanvas"),
+      paperMetric: document.getElementById("paperMetric"),
+      paperError: document.getElementById("paperError"),
+      paperFormat: document.getElementById("paperFormat"),
+      paperTitle: document.getElementById("paperTitle"),
+      paperMeta: document.getElementById("paperMeta"),
+      exportPaperFigure: document.getElementById("exportPaperFigure"),
+      curveLegend: document.getElementById("curveLegend"),
+      summaryTable: document.getElementById("summaryTable"),
+      summaryStatus: document.getElementById("summaryStatus"),
+      kpiSpecimens: document.getElementById("kpiSpecimens"),
+      kpiTypes: document.getElementById("kpiTypes"),
+      kpiPoints: document.getElementById("kpiPoints"),
+      kpiPeak: document.getElementById("kpiPeak"),
+      kpiPeakUnit: document.getElementById("kpiPeakUnit"),
+      kpiYield: document.getElementById("kpiYield")
+    };
+
+    const requiredColumns = [
+      "测试编号",
+      "试件类型",
+      "统一试件编号",
+      "原始Probe编号",
+      "源文件",
+      "厚度 h [mm]",
+      "采样序号",
+      "Verformung [mm]",
+      "Standardkraft [MPa]"
+    ];
+
+    const i18n = {
+      zh: {
+        loadingDefault: "正在读取 数据分析.csv",
+        autoLoadFailed: "自动读取失败",
+        loadPrompt: "请通过文件选择框载入 数据分析.csv。",
+        unloaded: "未加载数据",
+        selectedSpecimens: "个试件",
+        samplePoints: "个采样点",
+        allResults: "全部测试结果",
+        noMatch: "没有匹配的系列",
+        unknown: "未知",
+        mean: "均值",
+        all: "全部",
+        allMean: "全部均值",
+        meanReference: "均值参考线",
+        chooseSpecimen: "请选择至少一个试件",
+        noYield: "暂无屈服特征",
+        specimenId: "统一试件编号",
+        deformation: "Verformung [mm]",
+        rawStress: "Standardkraft [MPa]",
+        paperFigureTitle: "论文统计图",
+        export: "导出",
+        paperMetaPrefix: "当前图表",
+        paperMetaSuffix: "基于当前筛选、当前原始/标准化视图和屈服识别参数生成。",
+        pngExported: "PNG 图表已导出。",
+        svgExported: "SVG 图表已导出。",
+        csvExported: "CSV 统计表已导出。",
+        noPaperData: "没有可绘制的统计数据",
+        metric_peak: "峰值应力",
+        metric_yield: "屈服应力",
+        metric_stiffness: "初始斜率",
+        metric_energy: "曲线面积",
+        metric_thickness: "厚度",
+        error_sd: "SD",
+        error_sem: "SEM",
+        error_ci95: "95% CI",
+        error_none: "无误差条",
+        meanLabel: "Mean",
+        nLabel: "n",
+        axisMpa: "MPa",
+        axisSpecific: "MPa·m²/g",
+        axisMm: "mm",
+        axisGroup: "材料类型",
+        figureFallbackTitle: "材料类型对比",
+        appTitle: "弯折测试数据分析",
+        appSubtitle: "Prüfprotokoll · Seriengrafik · Statistik",
+        dataSource: "数据源",
+        language: "界面语言",
+        loadDefault: "读取 数据分析.csv",
+        chooseCsv: "选择 CSV",
+        chooseFile: "选择文件",
+        noFileSelected: "未选择文件",
+        specimenTypes: "试件类型",
+        seriesSelect: "系列选择",
+        selectAll: "全选",
+        selectNone: "清空",
+        search: "搜索",
+        secondaryFilter: "二级筛选",
+        batch: "测试批次",
+        uidMin: "编号从",
+        uidMax: "编号到",
+        thicknessMin: "厚度最小",
+        thicknessMax: "厚度最大",
+        sampleMin: "采样序号从",
+        sampleMax: "采样序号到",
+        resetFilters: "重置二级筛选",
+        referenceLine: "参考线",
+        referenceMode: "整组参考线",
+        referencePoints: "重采样点数",
+        referenceWidth: "线宽",
+        normalization: "标准化",
+        thicknessMode: "标准化方式",
+        arealPreMode: "预先标准化方式",
+        yieldDetect: "屈服识别",
+        elasticFraction: "初始弹性段比例",
+        yieldDrop: "斜率衰减阈值",
+        raw: "原始",
+        normalized: "标准化",
+        typeMean: "类型均值",
+        linearMean: "类型均值：带裁切",
+        specimenCount: "试件数量",
+        points: "采样点",
+        peakAvg: "平均峰值",
+        yieldAvg: "平均屈服点",
+        currentFilter: "当前筛选范围",
+        autoDetected: "自动识别",
+        curvePanel: "弯曲应力-变形曲线",
+        zoomIn: "放大",
+        zoomOut: "缩小",
+        resetView: "重置视图",
+        yieldPanel: "屈服特征图",
+        yieldLegend: "屈服",
+        peakLegend: "峰值",
+        materialCompare: "材料类型对比",
+        chartHint: "滚轮缩放，拖拽平移；重置视图会匹配当前筛选后的数据范围。",
+        type: "类型",
+        avgThickness: "平均厚度 mm",
+        initialSlope: "初始斜率",
+        yieldStress: "屈服应力",
+        yieldDef: "屈服变形 mm",
+        peakStress: "峰值应力",
+        peakDef: "峰值变形 mm",
+        curveArea: "曲线面积",
+        apparentFace: "D7249 表层应力 MPa",
+        referenceApparent: "参考几何表观应力 MPa",
+        arealSpecific: "面密度比性能 MPa·m²/g",
+        waitingData: "等待加载数据。",
+        searchPlaceholder: "例如 Roving 12 或 01_24",
+        autoPlaceholder: "自动",
+        endPlaceholder: "末尾",
+        paperTitlePlaceholder: "图题",
+        referenceThickness: "h₀ [mm]",
+        faceThickness3k: "Roving 表层厚度 t [mm]",
+        faceThickness1x1: "Plain 表层厚度 t [mm]",
+        faceThickness2x2: "Twill 表层厚度 t [mm]",
+        arealDensity3k: "Roving 面密度 [g/m²]",
+        arealDensity1x1: "Plain 面密度 [g/m²]",
+        arealDensity2x2: "Twill 面密度 [g/m²]",
+        factor3k: "Roving 系数",
+        factor1x1: "Plain 系数",
+        factor2x2: "Twill 系数",
+        referenceGroup: "参考厚度",
+        faceGroup: "D7249 表层参数",
+        arealGroup: "面密度比性能",
+        factorGroup: "材料类型修正",
+        reference_none: "不显示",
+        reference_typeMean: "各类型均值线",
+        reference_allMean: "全部选中均值线",
+        reference_both: "各类型 + 全部均值线",
+        thickness_none: "不进行标准化",
+        thickness_inertiaReference: "截面惯性矩参考 I₀/I",
+        thickness_sandwichFace: "D7249 简化表层应力",
+        thickness_arealSpecific: "基于面密度的比性能",
+        arealPre_none: "不预先标准化",
+        arealPre_inertiaReference: "截面惯性矩参考 I₀/I",
+        arealPre_sandwichFace: "D7249 简化表层应力",
+        format_png: "PNG 600 dpi",
+        format_svg: "SVG",
+        format_csv: "CSV",
+        referenceNote: "均值线按当前筛选后的曲线重采样计算，用于观察整组趋势。",
+        yieldNote: "屈服点按平滑后局部斜率低于初始斜率阈值识别；若未出现明显衰减，则取峰值点作为特征点。",
+        faceEstimate: "当前 D7249 按材料类型使用单侧表层厚度：{faceTs}。默认值按两侧各 4 层纤维并结合实测总厚度约束估算：3K 0.780、1x1 0.576、2x2 0.568 mm/侧。",
+        norm_none: "当前不做标准化，仅显示原始表观应力。",
+        norm_inertiaReference: "截面惯性矩参考模式：按整矩形截面 I = b h³ / 12，把曲线换算到参考厚度 h₀；当前 CSV 无宽度列时默认 b 一致，因此使用 I₀/I = (h₀/h)³。",
+        norm_sandwichFace: "D7249 简化模式：把实心梁表观应力反算为夹芯表层应力，当前单侧表层厚度按材料类型取值：{faceTs}；假设三点弯曲、对称夹芯、表层主导失效。",
+        norm_arealSpecific: "面密度比性能模式：先按“{preMode}”得到基础值，再除以各材料类型人工输入的面密度，单位为 MPa·m²/g。",
+        rawCurve: "原始曲线",
+        normalizedCurve: "标准化曲线",
+        typeMeanCurve: "类型均值",
+        linearMeanCurve: "类型均值：带裁切",
+        curve: "曲线",
+        linearSegment: "自动裁切线性段",
+        csvNoRows: "CSV 没有数据行。",
+        csvMissingColumns: "CSV 缺少列："
+      },
+      en: {
+        loadingDefault: "Loading data analysis.csv",
+        autoLoadFailed: "Auto-load failed",
+        loadPrompt: "Load data analysis.csv using the file picker.",
+        unloaded: "No data loaded",
+        selectedSpecimens: "specimens",
+        samplePoints: "points",
+        allResults: "All test results",
+        noMatch: "No matching series",
+        unknown: "Unknown",
+        mean: "mean",
+        all: "All",
+        allMean: "All mean",
+        meanReference: "Mean reference",
+        chooseSpecimen: "Select at least one specimen",
+        noYield: "No yield feature available",
+        specimenId: "Specimen ID",
+        deformation: "Deflection [mm]",
+        rawStress: "Standard stress [MPa]",
+        paperFigureTitle: "Publication Figure",
+        export: "Export",
+        paperMetaPrefix: "Current figure",
+        paperMetaSuffix: "Generated from the active filters, chart mode, standardization, and yield settings.",
+        pngExported: "PNG figure exported.",
+        svgExported: "SVG figure exported.",
+        csvExported: "CSV statistics exported.",
+        noPaperData: "No statistics available",
+        metric_peak: "Peak stress",
+        metric_yield: "Yield stress",
+        metric_stiffness: "Initial slope",
+        metric_energy: "Curve area",
+        metric_thickness: "Thickness",
+        error_sd: "SD",
+        error_sem: "SEM",
+        error_ci95: "95% CI",
+        error_none: "No error bar",
+        meanLabel: "Mean",
+        nLabel: "n",
+        axisMpa: "MPa",
+        axisSpecific: "MPa·m²/g",
+        axisMm: "mm",
+        axisGroup: "Material type",
+        figureFallbackTitle: "Material group comparison",
+        appTitle: "Flexural Test Analysis",
+        appSubtitle: "Test report · Series chart · Statistics",
+        dataSource: "Data Source",
+        language: "Language",
+        loadDefault: "Load data analysis.csv",
+        chooseCsv: "Choose CSV",
+        chooseFile: "Choose file",
+        noFileSelected: "No file selected",
+        specimenTypes: "Specimen Types",
+        seriesSelect: "Series Selection",
+        selectAll: "Select All",
+        selectNone: "Clear",
+        search: "Search",
+        secondaryFilter: "Filters",
+        batch: "Test batch",
+        uidMin: "ID from",
+        uidMax: "ID to",
+        thicknessMin: "Min thickness",
+        thicknessMax: "Max thickness",
+        sampleMin: "Sample index from",
+        sampleMax: "Sample index to",
+        resetFilters: "Reset filters",
+        referenceLine: "Reference Lines",
+        referenceMode: "Group reference",
+        referencePoints: "Resampling points",
+        referenceWidth: "Line width",
+        normalization: "Standardization",
+        thicknessMode: "Standardization method",
+        arealPreMode: "Pre-standardization",
+        yieldDetect: "Yield Detection",
+        elasticFraction: "Initial elastic fraction",
+        yieldDrop: "Slope drop threshold",
+        raw: "Raw",
+        normalized: "Standardized",
+        typeMean: "Type mean",
+        linearMean: "Type mean: cropped",
+        specimenCount: "Specimens",
+        points: "Data points",
+        peakAvg: "Mean peak",
+        yieldAvg: "Mean yield",
+        currentFilter: "Current filters",
+        autoDetected: "Auto detected",
+        curvePanel: "Flexural Stress-Deflection Curves",
+        zoomIn: "Zoom in",
+        zoomOut: "Zoom out",
+        resetView: "Reset view",
+        yieldPanel: "Yield Feature Plot",
+        yieldLegend: "Yield",
+        peakLegend: "Peak",
+        materialCompare: "Material Type Comparison",
+        chartHint: "Mouse wheel to zoom, drag to pan; reset view fits the active data range.",
+        type: "Type",
+        avgThickness: "Mean thickness mm",
+        initialSlope: "Initial slope",
+        yieldStress: "Yield stress",
+        yieldDef: "Yield deflection mm",
+        peakStress: "Peak stress",
+        peakDef: "Peak deflection mm",
+        curveArea: "Curve area",
+        apparentFace: "D7249 face stress MPa",
+        referenceApparent: "Reference-geometry apparent stress MPa",
+        arealSpecific: "Areal-density specific performance MPa·m²/g",
+        waitingData: "Waiting for data.",
+        searchPlaceholder: "e.g. Roving 12 or 01_24",
+        autoPlaceholder: "Auto",
+        endPlaceholder: "End",
+        paperTitlePlaceholder: "Figure title",
+        referenceThickness: "h₀ [mm]",
+        faceThickness3k: "Roving face thickness t [mm]",
+        faceThickness1x1: "Plain face thickness t [mm]",
+        faceThickness2x2: "Twill face thickness t [mm]",
+        arealDensity3k: "Roving areal density [g/m²]",
+        arealDensity1x1: "Plain areal density [g/m²]",
+        arealDensity2x2: "Twill areal density [g/m²]",
+        factor3k: "Roving factor",
+        factor1x1: "Plain factor",
+        factor2x2: "Twill factor",
+        referenceGroup: "Reference thickness",
+        faceGroup: "D7249 face parameters",
+        arealGroup: "Areal-density specific performance",
+        factorGroup: "Material type correction",
+        reference_none: "Hide",
+        reference_typeMean: "Mean line per type",
+        reference_allMean: "Mean of all selected",
+        reference_both: "Type means + all mean",
+        thickness_none: "No standardization",
+        thickness_inertiaReference: "Section inertia reference I₀/I",
+        thickness_sandwichFace: "D7249 simplified face stress",
+        thickness_arealSpecific: "Areal-density specific performance",
+        arealPre_none: "No pre-standardization",
+        arealPre_inertiaReference: "Section inertia reference I₀/I",
+        arealPre_sandwichFace: "D7249 simplified face stress",
+        format_png: "PNG 600 dpi",
+        format_svg: "SVG",
+        format_csv: "CSV",
+        referenceNote: "Mean lines are resampled from the currently filtered curves to show group trends.",
+        yieldNote: "Yield is detected when the smoothed local slope drops below the initial-slope threshold; if no clear drop is found, the peak point is used.",
+        faceEstimate: "Current D7249 uses material-specific face thickness per side: {faceTs}. Defaults use four fibre plies per face and measured total-thickness constraints: 3K 0.780, 1x1 0.576, 2x2 0.568 mm per face.",
+        norm_none: "No standardization is applied; the original apparent stress is shown.",
+        norm_inertiaReference: "Section-inertia reference mode converts curves to reference thickness h₀ using I = b h³ / 12. With no width column in the CSV, b is assumed constant and I₀/I = (h₀/h)³.",
+        norm_sandwichFace: "D7249 simplified mode converts solid-beam apparent stress to sandwich face stress. Current face thickness is material-specific: {faceTs}; assumptions: three-point bending, symmetric sandwich, face-dominated failure.",
+        norm_arealSpecific: "Areal-density specific-performance mode first applies “{preMode}”, then divides by the user-defined areal density for each material type. Unit: MPa·m²/g.",
+        rawCurve: "Raw curves",
+        normalizedCurve: "Standardized curves",
+        typeMeanCurve: "Type mean",
+        linearMeanCurve: "Type mean: cropped",
+        curve: "Curve",
+        linearSegment: "Auto-trimmed linear region",
+        csvNoRows: "The CSV has no data rows.",
+        csvMissingColumns: "CSV is missing columns: "
+      }
+    };
+
+    function t(key) {
+      return i18n[state.language]?.[key] ?? i18n.zh[key] ?? key;
+    }
+
+    function setText(selector, text) {
+      const el = document.querySelector(selector);
+      if (el) el.textContent = text;
+    }
+
+    function setLabel(forId, text) {
+      const el = document.querySelector(`label[for="${forId}"]`);
+      if (el) el.textContent = text;
+    }
+
+    function setOption(select, value, text) {
+      if (!select) return;
+      const option = [...select.options].find(o => o.value === value);
+      if (option) option.textContent = text;
+    }
+
+    function updateI18nNodes() {
+      document.querySelectorAll("[data-i18n]").forEach(el => {
+        el.textContent = t(el.dataset.i18n);
+      });
+    }
+
+    function setStandardizationGroup(name, visible) {
+      const group = document.querySelector(`[data-standardization-group="${name}"]`);
+      if (group) group.classList.toggle("is-hidden", !visible);
+    }
+
+    function updateNormalizationControls() {
+      const mode = els.thicknessMode.value;
+      const preMode = els.arealPreMode?.value || "none";
+      const usesReference = mode === "inertiaReference" || (mode === "arealSpecific" && preMode === "inertiaReference");
+      const usesFace = mode === "sandwichFace" || (mode === "arealSpecific" && preMode === "sandwichFace");
+      setStandardizationGroup("reference", usesReference);
+      setStandardizationGroup("face", usesFace);
+      setStandardizationGroup("areal", mode === "arealSpecific");
+      setStandardizationGroup("factor", mode !== "none");
+    }
+
+    function applyLanguage() {
+      document.documentElement.lang = state.language === "en" ? "en" : "zh-CN";
+      document.title = t("appTitle");
+      if (els.languageMode) els.languageMode.value = state.language;
+      setText(".brand h1", t("appTitle"));
+      setText(".brand p", t("appSubtitle"));
+      updateI18nNodes();
+      const sectionTitles = document.querySelectorAll("aside .section h2");
+      [
+        "dataSource",
+        "specimenTypes",
+        "seriesSelect",
+        "secondaryFilter",
+        "referenceLine",
+        "normalization",
+        "yieldDetect"
+      ].forEach((key, i) => { if (sectionTitles[i]) sectionTitles[i].textContent = t(key); });
+      setLabel("languageMode", t("language"));
+      els.loadDefault.textContent = t("loadDefault");
+      setLabel("fileInput", t("chooseCsv"));
+      els.fileButton.textContent = t("chooseFile");
+      if (!els.fileInput.files?.length) els.fileName.textContent = t("noFileSelected");
+      if (!state.rows.length) els.sourceNote.textContent = t("waitingData");
+      els.selectAll.textContent = t("selectAll");
+      els.selectNone.textContent = t("selectNone");
+      setLabel("seriesFilter", t("search"));
+      els.seriesFilter.placeholder = t("searchPlaceholder");
+      setLabel("batchFilter", t("batch"));
+      setLabel("uidMin", t("uidMin"));
+      setLabel("uidMax", t("uidMax"));
+      setLabel("thicknessMin", t("thicknessMin"));
+      els.thicknessMin.placeholder = t("autoPlaceholder");
+      setLabel("thicknessMax", t("thicknessMax"));
+      els.thicknessMax.placeholder = t("autoPlaceholder");
+      setLabel("sampleMin", t("sampleMin"));
+      setLabel("sampleMax", t("sampleMax"));
+      els.sampleMax.placeholder = t("endPlaceholder");
+      els.resetFilters.textContent = t("resetFilters");
+      setLabel("referenceMode", t("referenceMode"));
+      setLabel("referencePoints", t("referencePoints"));
+      setLabel("referenceWidth", t("referenceWidth"));
+      setLabel("thicknessMode", t("thicknessMode"));
+      setLabel("referenceThickness", t("referenceThickness"));
+      setLabel("arealPreMode", t("arealPreMode"));
+      setLabel("faceThickness3k", t("faceThickness3k"));
+      setLabel("faceThickness1x1", t("faceThickness1x1"));
+      setLabel("faceThickness2x2", t("faceThickness2x2"));
+      setLabel("arealDensity3k", t("arealDensity3k"));
+      setLabel("arealDensity1x1", t("arealDensity1x1"));
+      setLabel("arealDensity2x2", t("arealDensity2x2"));
+      setLabel("factor3k", t("factor3k"));
+      setLabel("factor1x1", t("factor1x1"));
+      setLabel("factor2x2", t("factor2x2"));
+      setLabel("elasticFraction", t("elasticFraction"));
+      setLabel("yieldDrop", t("yieldDrop"));
+      els.rawTab.textContent = t("raw");
+      els.normTab.textContent = t("normalized");
+      els.avgTab.textContent = t("typeMean");
+      if (els.linearAvgTab) els.linearAvgTab.textContent = t("linearMean");
+      setText(".kpis .kpi:nth-child(1) .label", t("specimenCount"));
+      setText(".kpis .kpi:nth-child(2) .label", t("points"));
+      setText(".kpis .kpi:nth-child(2) .detail", t("currentFilter"));
+      setText(".kpis .kpi:nth-child(3) .label", t("peakAvg"));
+      setText(".kpis .kpi:nth-child(4) .label", t("yieldAvg"));
+      setText(".kpis .kpi:nth-child(4) .detail", t("autoDetected"));
+      setText(".layout .panel:nth-child(1) .panel-header h2", t("curvePanel"));
+      setText(".layout .panel:nth-child(2) .panel-header h2", t("yieldPanel"));
+      setText(".chart-hint", t("chartHint"));
+      setText("section.panel[style] .panel-header h2", t("materialCompare"));
+      setText("[data-i18n='paperFigureTitle']", t("paperFigureTitle"));
+      setText("#referenceNote", t("referenceNote"));
+      setText("#yieldNote", t("yieldNote"));
+      const yieldLegend = document.querySelector(".layout .panel:nth-child(2) .legend span:nth-child(1)");
+      const peakLegend = document.querySelector(".layout .panel:nth-child(2) .legend span:nth-child(2)");
+      if (yieldLegend) yieldLegend.innerHTML = `<span class="swatch" style="background:#0f7b8f"></span>${t("yieldLegend")}`;
+      if (peakLegend) peakLegend.innerHTML = `<span class="swatch" style="background:#b3261e"></span>${t("peakLegend")}`;
+      els.zoomIn.textContent = t("zoomIn");
+      els.zoomOut.textContent = t("zoomOut");
+      els.resetZoom.textContent = t("resetView");
+      els.exportPaperFigure.textContent = t("export");
+      els.paperTitle.placeholder = t("paperTitlePlaceholder");
+      setOption(els.languageMode, "zh", "中文");
+      setOption(els.languageMode, "en", "English");
+      setOption(els.referenceMode, "none", t("reference_none"));
+      setOption(els.referenceMode, "typeMean", t("reference_typeMean"));
+      setOption(els.referenceMode, "allMean", t("reference_allMean"));
+      setOption(els.referenceMode, "both", t("reference_both"));
+      setOption(els.thicknessMode, "none", t("thickness_none"));
+      setOption(els.thicknessMode, "inertiaReference", t("thickness_inertiaReference"));
+      setOption(els.thicknessMode, "sandwichFace", t("thickness_sandwichFace"));
+      setOption(els.thicknessMode, "arealSpecific", t("thickness_arealSpecific"));
+      setOption(els.arealPreMode, "none", t("arealPre_none"));
+      setOption(els.arealPreMode, "inertiaReference", t("arealPre_inertiaReference"));
+      setOption(els.arealPreMode, "sandwichFace", t("arealPre_sandwichFace"));
+      setOption(els.paperMetric, "peak", t("metric_peak"));
+      setOption(els.paperMetric, "yield", t("metric_yield"));
+      setOption(els.paperMetric, "stiffness", t("metric_stiffness"));
+      setOption(els.paperMetric, "energy", t("metric_energy"));
+      setOption(els.paperMetric, "thickness", t("metric_thickness"));
+      setOption(els.paperError, "sd", t("error_sd"));
+      setOption(els.paperError, "sem", t("error_sem"));
+      setOption(els.paperError, "ci95", t("error_ci95"));
+      setOption(els.paperError, "none", t("error_none"));
+      setOption(els.paperFormat, "png", t("format_png"));
+      setOption(els.paperFormat, "svg", t("format_svg"));
+      setOption(els.paperFormat, "csv", t("format_csv"));
+      updateNormalizationControls();
+      populateBatchFilter();
+      renderSeriesList();
+    }
+
+    function parseCsv(text) {
+      if (text.charCodeAt(0) === 0xfeff) text = text.slice(1);
+      const rows = [];
+      let row = [];
+      let field = "";
+      let quoted = false;
+      for (let i = 0; i < text.length; i++) {
+        const ch = text[i];
+        const next = text[i + 1];
+        if (quoted) {
+          if (ch === '"' && next === '"') {
+            field += '"';
+            i++;
+          } else if (ch === '"') {
+            quoted = false;
+          } else {
+            field += ch;
+          }
+        } else if (ch === '"') {
+          quoted = true;
+        } else if (ch === ",") {
+          row.push(field);
+          field = "";
+        } else if (ch === "\n") {
+          row.push(field);
+          rows.push(row);
+          row = [];
+          field = "";
+        } else if (ch !== "\r") {
+          field += ch;
+        }
+      }
+      if (field.length || row.length) {
+        row.push(field);
+        rows.push(row);
+      }
+      return rows.filter(r => r.some(v => v !== ""));
+    }
+
+    function loadCsvText(text, sourceName) {
+      const raw = parseCsv(text);
+      if (raw.length < 2) throw new Error(t("csvNoRows"));
+      const headers = raw[0].map(h => h.trim());
+      const missing = requiredColumns.filter(h => !headers.includes(h));
+      if (missing.length) throw new Error(t("csvMissingColumns") + missing.join(state.language === "en" ? ", " : "、"));
+      const index = Object.fromEntries(headers.map((h, i) => [h, i]));
+      state.rows = raw.slice(1).map(r => ({
+        testId: r[index["测试编号"]],
+        type: r[index["试件类型"]],
+        unifiedId: Number(r[index["统一试件编号"]]),
+        originalProbe: r[index["原始Probe编号"]],
+        sourceFile: r[index["源文件"]],
+        thickness: Number(r[index["厚度 h [mm]"]]),
+        sampleIndex: Number(r[index["采样序号"]]),
+        deformation: Number(r[index["Verformung [mm]"]]),
+        stress: Number(r[index["Standardkraft [MPa]"]])
+      })).filter(r => Number.isFinite(r.unifiedId) && Number.isFinite(r.deformation) && Number.isFinite(r.stress));
+
+      buildSpecimens();
+      state.selected = new Set(state.specimens.map(s => s.key));
+      populateBatchFilter();
+      state.curveView = null;
+      els.sourceNote.textContent = `${sourceName} · ${formatInt(state.rows.length)} ${t("samplePoints")}`;
+      renderSeriesList();
+      updateAll();
+    }
+
+    function buildSpecimens() {
+      const map = new Map();
+      for (const row of state.rows) {
+        const key = `${row.type}|${row.unifiedId}`;
+        if (!map.has(key)) {
+          map.set(key, {
+            key,
+            type: row.type,
+            unifiedId: row.unifiedId,
+            name: `${displayTypeName(row.type)}-${String(row.unifiedId).padStart(2, "0")}`,
+            testId: row.testId,
+            batch: extractBatch(row.testId),
+            originalProbe: row.originalProbe,
+            sourceFile: row.sourceFile,
+            thickness: row.thickness,
+            points: []
+          });
+        }
+        map.get(key).points.push(row);
+      }
+      state.specimens = [...map.values()].sort((a, b) => typeOrder(a.type) - typeOrder(b.type) || a.unifiedId - b.unifiedId);
+      for (const specimen of state.specimens) {
+        specimen.points.sort((a, b) => a.sampleIndex - b.sampleIndex);
+      }
+    }
+
+    function extractBatch(testId) {
+      const match = String(testId).match(/01_(\d+)(?:_H)?/);
+      if (!match) return t("unknown");
+      return testId.includes(`01_${match[1]}_H`) ? `01_${match[1]}_H` : `01_${match[1]}`;
+    }
+
+    function populateBatchFilter() {
+      const current = els.batchFilter.value;
+      const batches = [...new Set(state.specimens.map(s => s.batch))].sort((a, b) => batchOrder(a) - batchOrder(b));
+      els.batchFilter.innerHTML = `<option value="all">${t("allResults")}</option>` + batches.map(batch =>
+        `<option value="${escapeHtml(batch)}">${escapeHtml(batch)}</option>`
+      ).join("");
+      if ([...els.batchFilter.options].some(option => option.value === current)) {
+        els.batchFilter.value = current;
+      }
+    }
+
+    function batchOrder(batch) {
+      const match = String(batch).match(/01_(\d+)/);
+      return match ? Number(match[1]) : 999;
+    }
+
+    function typeOrder(type) {
+      return { "3k": 1, "1x1": 2, "2x2": 3 }[type] || 99;
+    }
+
+    function displayTypeName(type) {
+      return { "3k": "Roving", "1x1": "Plain", "2x2": "Twill" }[type] || type;
+    }
+
+    function enabledTypes() {
+      const set = new Set();
+      if (els.type3k.checked) set.add("3k");
+      if (els.type1x1.checked) set.add("1x1");
+      if (els.type2x2.checked) set.add("2x2");
+      return set;
+    }
+
+    function getMaterialFactor(type) {
+      if (type === "3k") return numberOr(els.factor3k.value, 1);
+      if (type === "1x1") return numberOr(els.factor1x1.value, 1);
+      if (type === "2x2") return numberOr(els.factor2x2.value, 1);
+      return 1;
+    }
+
+    function getArealDensity(type) {
+      if (type === "3k") return numberOr(els.arealDensity3k.value, 132.9);
+      if (type === "1x1") return numberOr(els.arealDensity1x1.value, 132.9);
+      if (type === "2x2") return numberOr(els.arealDensity2x2.value, 132.9);
+      return 132.9;
+    }
+
+    function normalizeStress(stress, thickness, type) {
+      const mode = els.thicknessMode.value;
+      const factor = mode === "none" ? 1 : getMaterialFactor(type);
+      if (mode === "arealSpecific") {
+        const preMode = els.arealPreMode?.value || "none";
+        const base = normalizeByMode(stress, thickness, preMode, type);
+        const arealDensity = getArealDensity(type);
+        if (!Number.isFinite(arealDensity) || arealDensity <= 0) return base * factor;
+        return (base * factor) / arealDensity;
+      }
+      return normalizeByMode(stress, thickness, mode, type) * factor;
+    }
+
+    function normalizeByMode(stress, thickness, mode, type) {
+      const h0 = numberOr(els.referenceThickness.value, 2);
+      if (mode === "none") return stress;
+      if (!Number.isFinite(thickness) || thickness <= 0) return stress;
+      if (mode === "inertiaReference") {
+        if (h0 <= 0) return stress;
+        return normalizeBySectionInertia(stress, thickness, h0);
+      }
+      if (mode === "sandwichFace") {
+        const faceT = getFaceThickness(type);
+        return apparentToFaceStress(stress, thickness, faceT);
+      }
+      return stress;
+    }
+
+    function normalizeBySectionInertia(value, thickness, referenceThickness) {
+      const currentI = Math.pow(thickness, 3);
+      const referenceI = Math.pow(referenceThickness, 3);
+      if (currentI <= 0 || referenceI <= 0) return value;
+      return value * referenceI / currentI;
+    }
+
+    function getFaceThickness(type) {
+      const normalizedType = String(type || "").toLowerCase();
+      const inputs = {
+        "3k": els.faceThickness3k,
+        "1x1": els.faceThickness1x1,
+        "2x2": els.faceThickness2x2
+      };
+      const fallback = faceThicknessDefaults[normalizedType] ?? faceThicknessDefaults["1x1"];
+      const value = numberOr(inputs[normalizedType]?.value, fallback);
+      return Number.isFinite(value) && value > 0 ? value : fallback;
+    }
+
+    function formatFaceThicknessList() {
+      return [
+        `Roving ${formatNum(getFaceThickness("3k"), 3)} mm`,
+        `Plain ${formatNum(getFaceThickness("1x1"), 3)} mm`,
+        `Twill ${formatNum(getFaceThickness("2x2"), 3)} mm`
+      ].join(" / ");
+    }
+
+    function updateFaceThicknessEstimate() {
+      els.faceThicknessEstimate.textContent = t("faceEstimate")
+        .replace("{faceTs}", formatFaceThicknessList());
+    }
+
+    function apparentToFaceStress(apparentStress, totalThickness, faceThickness) {
+      if (!Number.isFinite(faceThickness) || faceThickness <= 0) return apparentStress;
+      const d = totalThickness;
+      const t = Math.min(faceThickness, d / 2 * 0.98);
+      const c = Math.max(d - 2 * t, 0);
+      const denom = 3 * t * (d + c);
+      if (denom <= 0) return apparentStress;
+      return apparentStress * d * d / denom;
+    }
+
+    function numberOr(value, fallback) {
+      const n = Number(value);
+      return Number.isFinite(n) ? n : fallback;
+    }
+
+    function getVisibleSpecimens() {
+      const types = enabledTypes();
+      const batch = els.batchFilter.value;
+      const uidMin = optionalNumber(els.uidMin.value);
+      const uidMax = optionalNumber(els.uidMax.value);
+      const hMin = optionalNumber(els.thicknessMin.value);
+      const hMax = optionalNumber(els.thicknessMax.value);
+      return state.specimens.filter(s => {
+        if (!types.has(s.type) || !state.selected.has(s.key)) return false;
+        if (batch !== "all" && s.batch !== batch) return false;
+        if (uidMin !== null && s.unifiedId < uidMin) return false;
+        if (uidMax !== null && s.unifiedId > uidMax) return false;
+        if (hMin !== null && s.thickness < hMin) return false;
+        if (hMax !== null && s.thickness > hMax) return false;
+        return true;
+      });
+    }
+
+    function getDisplayPoints(specimen) {
+      const sampleMin = optionalNumber(els.sampleMin.value);
+      const sampleMax = optionalNumber(els.sampleMax.value);
+      return specimen.points.filter(p => {
+        if (sampleMin !== null && p.sampleIndex < sampleMin) return false;
+        if (sampleMax !== null && p.sampleIndex > sampleMax) return false;
+        return true;
+      }).map(p => ({
+        x: p.deformation,
+        y: state.chartMode === "raw" ? p.stress : normalizeStress(p.stress, p.thickness, p.type),
+        sampleIndex: p.sampleIndex
+      }));
+    }
+
+    function optionalNumber(value) {
+      if (value === "" || value === null || value === undefined) return null;
+      const n = Number(value);
+      return Number.isFinite(n) ? n : null;
+    }
+
+    function computeFeatures(specimen) {
+      const pts = getDisplayPoints(specimen).filter(p => Number.isFinite(p.x) && Number.isFinite(p.y));
+      if (pts.length < 6) {
+        return { yieldPoint: null, peakPoint: null, stiffness: 0, energy: 0 };
+      }
+      const peakPoint = pts.reduce((best, p) => p.y > best.y ? p : best, pts[0]);
+      const elasticFraction = clamp(numberOr(els.elasticFraction.value, 0.18), 0.05, 0.45);
+      const drop = clamp(numberOr(els.yieldDrop.value, 0.75), 0.2, 0.95);
+      const elasticEnd = Math.max(5, Math.floor(pts.length * elasticFraction));
+      const stiffness = linearSlope(pts.slice(0, elasticEnd));
+      const smooth = smoothPoints(pts, 5);
+      let yieldPoint = null;
+      const minY = peakPoint.y * 0.18;
+      for (let i = Math.max(3, elasticEnd - 2); i < smooth.length - 3; i++) {
+        const dx = smooth[i + 2].x - smooth[i - 2].x;
+        const dy = smooth[i + 2].y - smooth[i - 2].y;
+        const slope = dx !== 0 ? dy / dx : stiffness;
+        if (smooth[i].y > minY && slope < stiffness * drop) {
+          yieldPoint = smooth[i];
+          break;
+        }
+      }
+      if (!yieldPoint) yieldPoint = peakPoint;
+      const energy = integrate(pts);
+      return { yieldPoint, peakPoint, stiffness, energy };
+    }
+
+    function linearSlope(points) {
+      const n = points.length;
+      const sx = points.reduce((a, p) => a + p.x, 0);
+      const sy = points.reduce((a, p) => a + p.y, 0);
+      const sxx = points.reduce((a, p) => a + p.x * p.x, 0);
+      const sxy = points.reduce((a, p) => a + p.x * p.y, 0);
+      const denom = n * sxx - sx * sx;
+      return denom === 0 ? 0 : (n * sxy - sx * sy) / denom;
+    }
+
+    function smoothPoints(points, windowSize) {
+      const half = Math.floor(windowSize / 2);
+      return points.map((p, i) => {
+        let total = 0;
+        let count = 0;
+        for (let j = Math.max(0, i - half); j <= Math.min(points.length - 1, i + half); j++) {
+          total += points[j].y;
+          count++;
+        }
+        return { x: p.x, y: total / count, sampleIndex: p.sampleIndex };
+      });
+    }
+
+    function integrate(points) {
+      let area = 0;
+      for (let i = 1; i < points.length; i++) {
+        const dx = points[i].x - points[i - 1].x;
+        area += dx * (points[i].y + points[i - 1].y) / 2;
+      }
+      return area;
+    }
+
+    function clamp(n, min, max) {
+      return Math.max(min, Math.min(max, n));
+    }
+
+    function makeAveragedSeries(specimens) {
+      const groups = groupBy(specimens, s => s.type);
+      const stepCount = clamp(Math.round(numberOr(els.referencePoints.value, 180)), 50, 500);
+      const averaged = [];
+      for (const [type, list] of groups) {
+        const displayLists = list.map(s => getDisplayPoints(s)).filter(points => points.length > 1);
+        if (!displayLists.length) continue;
+        const maxX = Math.max(...displayLists.map(points => points[points.length - 1].x));
+        const points = [];
+        for (let i = 0; i <= stepCount; i++) {
+          const x = maxX * i / stepCount;
+          const vals = displayLists.map(points => interpolate(points, x)).filter(Number.isFinite);
+          if (vals.length) {
+            points.push({ x, y: vals.reduce((a, v) => a + v, 0) / vals.length });
+          }
+        }
+        averaged.push({
+          key: `${type}|avg`,
+          type,
+          unifiedId: 0,
+          name: `${displayTypeName(type)} ${t("mean")}`,
+          thickness: mean(list.map(s => s.thickness)),
+          points,
+          averaged: true
+        });
+      }
+      return averaged.sort((a, b) => typeOrder(a.type) - typeOrder(b.type));
+    }
+
+    function makeLinearAveragedSeries(specimens) {
+      const groups = groupBy(specimens, s => s.type);
+      const stepCount = clamp(Math.round(numberOr(els.referencePoints.value, 180)), 50, 500);
+      const averaged = [];
+      for (const [type, list] of groups) {
+        const displayLists = list
+          .map(s => cropToLinearSegment(getDisplayPoints(s)))
+          .filter(points => points.length > 1);
+        if (!displayLists.length) continue;
+        const maxX = Math.min(...displayLists.map(points => points[points.length - 1].x));
+        if (!Number.isFinite(maxX) || maxX <= 0) continue;
+        const points = [];
+        for (let i = 0; i <= stepCount; i++) {
+          const x = maxX * i / stepCount;
+          const vals = displayLists.map(points => interpolate(points, x)).filter(Number.isFinite);
+          if (vals.length) points.push({ x, y: mean(vals) });
+        }
+        averaged.push({
+          key: `${type}|linearAvg`,
+          type,
+          unifiedId: 0,
+          name: `${displayTypeName(type)} ${t("linearMeanCurve")}`,
+          thickness: mean(list.map(s => s.thickness)),
+          points,
+          averaged: true,
+          linearAverage: true
+        });
+      }
+      return averaged.sort((a, b) => typeOrder(a.type) - typeOrder(b.type));
+    }
+
+    function cropToLinearSegment(points) {
+      const clean = points.filter(p => Number.isFinite(p.x) && Number.isFinite(p.y));
+      if (clean.length < 8) return clean;
+      const elasticFraction = clamp(numberOr(els.elasticFraction.value, 0.18), 0.05, 0.45);
+      const drop = clamp(numberOr(els.yieldDrop.value, 0.75), 0.2, 0.95);
+      const elasticEnd = Math.max(5, Math.floor(clean.length * elasticFraction));
+      const baseSlope = linearSlope(clean.slice(0, elasticEnd));
+      if (!Number.isFinite(baseSlope) || baseSlope <= 0) return clean.slice(0, elasticEnd);
+      const smooth = smoothPoints(clean, 5);
+      const minY = Math.max(...smooth.map(p => p.y)) * 0.08;
+      let cutIndex = clean.length - 1;
+      for (let i = Math.max(3, elasticEnd - 2); i < smooth.length - 3; i++) {
+        const dx = smooth[i + 2].x - smooth[i - 2].x;
+        const dy = smooth[i + 2].y - smooth[i - 2].y;
+        const slope = dx !== 0 ? dy / dx : baseSlope;
+        if (smooth[i].y > minY && slope < baseSlope * drop) {
+          cutIndex = i;
+          break;
+        }
+      }
+      return clean.slice(0, Math.max(elasticEnd, cutIndex) + 1);
+    }
+
+    function makeReferenceSeries(specimens) {
+      const mode = els.referenceMode.value;
+      if (mode === "none" || state.chartMode === "linearAvg") return [];
+      const refs = [];
+      if (mode === "typeMean" || mode === "both") {
+        refs.push(...makeAveragedSeries(specimens).map(s => ({ ...s, reference: true })));
+      }
+      if (mode === "allMean" || mode === "both") {
+        const stepCount = clamp(Math.round(numberOr(els.referencePoints.value, 180)), 50, 500);
+        const displayLists = specimens.map(s => getDisplayPoints(s)).filter(points => points.length > 1);
+        if (displayLists.length) {
+          const maxX = Math.max(...displayLists.map(points => points[points.length - 1].x));
+          const points = [];
+          for (let i = 0; i <= stepCount; i++) {
+            const x = maxX * i / stepCount;
+            const vals = displayLists.map(list => interpolate(list, x)).filter(Number.isFinite);
+            if (vals.length) points.push({ x, y: mean(vals) });
+          }
+          refs.push({ key: "all|mean", type: t("all"), unifiedId: 0, name: t("allMean"), points, reference: true });
+        }
+      }
+      return refs;
+    }
+
+    function interpolate(points, x) {
+      if (!points.length || x < points[0].x || x > points[points.length - 1].x) return NaN;
+      let lo = 0;
+      let hi = points.length - 1;
+      while (hi - lo > 1) {
+        const mid = Math.floor((lo + hi) / 2);
+        if (points[mid].x < x) lo = mid;
+        else hi = mid;
+      }
+      const a = points[lo];
+      const b = points[hi];
+      if (b.x === a.x) return a.y;
+      return a.y + (b.y - a.y) * (x - a.x) / (b.x - a.x);
+    }
+
+    function mean(values) {
+      const clean = values.filter(Number.isFinite);
+      return clean.length ? clean.reduce((a, b) => a + b, 0) / clean.length : NaN;
+    }
+
+    function groupBy(items, fn) {
+      const map = new Map();
+      for (const item of items) {
+        const key = fn(item);
+        if (!map.has(key)) map.set(key, []);
+        map.get(key).push(item);
+      }
+      return map;
+    }
+
+    function renderSeriesList() {
+      const filter = els.seriesFilter.value.trim().toLowerCase();
+      const html = state.specimens.filter(s => {
+        const text = `${s.name} ${s.type} ${displayTypeName(s.type)} ${s.testId} ${s.originalProbe}`.toLowerCase();
+        return !filter || text.includes(filter);
+      }).map(s => `
+        <label class="series-item">
+          <input type="checkbox" data-key="${escapeHtml(s.key)}" ${state.selected.has(s.key) ? "checked" : ""}>
+          <span>
+            <span class="series-title"><span class="swatch" style="background:${state.colors[s.type] || state.colors["未知"]}"></span>${escapeHtml(s.name)}</span>
+            <span class="series-meta">${escapeHtml(s.originalProbe)} · h=${formatNum(s.thickness, 2)} mm</span>
+          </span>
+        </label>
+      `).join("");
+      els.seriesList.innerHTML = html || `<div class="empty">${t("noMatch")}</div>`;
+      els.seriesList.querySelectorAll("input[type=checkbox]").forEach(input => {
+        input.addEventListener("change", () => {
+          if (input.checked) state.selected.add(input.dataset.key);
+          else state.selected.delete(input.dataset.key);
+          handleFilterChange();
+        });
+      });
+    }
+
+    function updateAll() {
+      updateNormalizationNote();
+      const specimens = getVisibleSpecimens();
+      const display = state.chartMode === "avg"
+        ? makeAveragedSeries(specimens)
+        : state.chartMode === "linearAvg"
+          ? makeLinearAveragedSeries(specimens)
+          : specimens;
+      const references = makeReferenceSeries(specimens);
+      const features = specimens.map(s => ({ specimen: s, ...computeFeatures(s) }));
+      renderKpis(specimens, features);
+      drawCurveChart(display, features, references);
+      drawYieldChart(features);
+      renderSummaryTable(specimens, features);
+      renderPaperFigure(specimens, features);
+      els.status.textContent = state.rows.length
+        ? `${specimens.length} ${t("selectedSpecimens")} · ${formatInt(specimens.reduce((a, s) => a + getDisplayPoints(s).length, 0))} ${t("samplePoints")} · ${viewModeLabel()} · ${filterSummary()}`
+        : t("unloaded");
+    }
+
+    function viewModeLabel() {
+      if (state.chartMode === "raw") return t("rawCurve");
+      if (state.chartMode === "norm") return t("normalizedCurve");
+      if (state.chartMode === "avg") return t("typeMeanCurve");
+      if (state.chartMode === "linearAvg") return t("linearMeanCurve");
+      return t("curve");
+    }
+
+    function filterSummary() {
+      const parts = [];
+      if (els.batchFilter.value !== "all") parts.push(els.batchFilter.value);
+      if (els.uidMin.value || els.uidMax.value) parts.push(`${state.language === "en" ? "ID" : "编号"} ${els.uidMin.value || "1"}-${els.uidMax.value || "12"}`);
+      if (els.thicknessMin.value || els.thicknessMax.value) parts.push(`${state.language === "en" ? "thickness" : "厚度"} ${els.thicknessMin.value || "min"}-${els.thicknessMax.value || "max"}`);
+      if (els.sampleMin.value || els.sampleMax.value) parts.push(`${state.language === "en" ? "sample" : "采样"} ${els.sampleMin.value || "1"}-${els.sampleMax.value || (state.language === "en" ? "end" : "末尾")}`);
+      return parts.length ? parts.join(" · ") : t("allResults");
+    }
+
+    function stressLabel() {
+      if (state.chartMode === "raw") return "MPa";
+      const mode = els.thicknessMode.value;
+      if (mode === "inertiaReference") return state.language === "en" ? "I0/I normalized MPa" : "I₀/I 标准化 MPa";
+      if (mode === "sandwichFace") return t("apparentFace");
+      if (mode === "arealSpecific") return t("axisSpecific");
+      return "MPa";
+    }
+
+    function stressAxisLabel() {
+      if (state.chartMode === "raw") return t("rawStress");
+      const mode = els.thicknessMode.value;
+      if (mode === "inertiaReference") return state.language === "en" ? "Section-inertia normalized stress [MPa]" : "截面惯性矩标准化 Standardkraft [MPa]";
+      if (mode === "sandwichFace") return state.language === "en" ? "D7249 face stress [MPa]" : "D7249 简化表层应力 [MPa]";
+      if (mode === "arealSpecific") return state.language === "en" ? "Areal-density specific performance [MPa·m²/g]" : "面密度比性能 [MPa·m²/g]";
+      return t("rawStress");
+    }
+
+    function updateNormalizationNote() {
+      updateNormalizationControls();
+      updateFaceThicknessEstimate();
+      const mode = els.thicknessMode.value;
+      const faceTs = formatFaceThicknessList();
+      const preMode = els.arealPreMode?.value || "none";
+      const notes = {
+        none: t("norm_none"),
+        inertiaReference: t("norm_inertiaReference"),
+        sandwichFace: t("norm_sandwichFace").replace("{faceTs}", faceTs),
+        arealSpecific: t("norm_arealSpecific").replace("{preMode}", t(`arealPre_${preMode}`))
+      };
+      els.normalizationNote.textContent = notes[mode] || notes.none;
+    }
+
+    function renderKpis(specimens, features) {
+      const pointCount = specimens.reduce((a, s) => a + getDisplayPoints(s).length, 0);
+      const typeCounts = [...groupBy(specimens, s => s.type)].map(([type, list]) => `${displayTypeName(type)}:${list.length}`).join("  ");
+      const peaks = features.map(f => f.peakPoint?.y).filter(Number.isFinite);
+      const yields = features.map(f => f.yieldPoint?.y).filter(Number.isFinite);
+      els.kpiSpecimens.textContent = specimens.length;
+      els.kpiTypes.textContent = typeCounts || "-";
+      els.kpiPoints.textContent = formatInt(pointCount);
+      els.kpiPeak.textContent = peaks.length ? formatNum(mean(peaks), 1) : "-";
+      els.kpiYield.textContent = yields.length ? formatNum(mean(yields), 1) : "-";
+      els.kpiPeakUnit.textContent = stressLabel();
+    }
+
+    function renderSummaryTable(specimens, features) {
+      const byType = groupBy(features, f => f.specimen.type);
+      const rows = [];
+      for (const [type, list] of [...byType].sort((a, b) => typeOrder(a[0]) - typeOrder(b[0]))) {
+        rows.push({
+          type,
+          typeLabel: displayTypeName(type),
+          n: list.length,
+          thickness: mean(list.map(f => f.specimen.thickness)),
+          stiffness: mean(list.map(f => f.stiffness)),
+          yieldStress: mean(list.map(f => f.yieldPoint?.y).filter(Number.isFinite)),
+          yieldDef: mean(list.map(f => f.yieldPoint?.x).filter(Number.isFinite)),
+          peakStress: mean(list.map(f => f.peakPoint?.y).filter(Number.isFinite)),
+          peakDef: mean(list.map(f => f.peakPoint?.x).filter(Number.isFinite)),
+          energy: mean(list.map(f => f.energy))
+        });
+      }
+      els.summaryStatus.textContent = stressLabel();
+      els.summaryTable.innerHTML = `
+        <thead>
+          <tr>
+            <th>${t("type")}</th>
+            <th>n</th>
+            <th>${t("avgThickness")}</th>
+            <th>${t("initialSlope")}</th>
+            <th>${t("yieldStress")}</th>
+            <th>${t("yieldDef")}</th>
+            <th>${t("peakStress")}</th>
+            <th>${t("peakDef")}</th>
+            <th>${t("curveArea")}</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${rows.map(r => `
+            <tr>
+              <td><span class="swatch" style="background:${state.colors[r.type] || state.colors["未知"]}"></span>${escapeHtml(r.typeLabel)}</td>
+              <td>${r.n}</td>
+              <td>${formatNum(r.thickness, 3)}</td>
+              <td>${formatNum(r.stiffness, 1)}</td>
+              <td>${formatNum(r.yieldStress, 1)}</td>
+              <td>${formatNum(r.yieldDef, 3)}</td>
+              <td>${formatNum(r.peakStress, 1)}</td>
+              <td>${formatNum(r.peakDef, 3)}</td>
+              <td>${formatNum(r.energy, 1)}</td>
+            </tr>
+          `).join("")}
+        </tbody>
+      `;
+    }
+
+    function drawCurveChart(specimens, features, references = []) {
+      const canvas = els.curveCanvas;
+      const ctx = setupCanvas(canvas);
+      const series = specimens.map(s => ({
+        specimen: s,
+        points: s.averaged ? s.points : getDisplayPoints(s)
+      })).filter(s => s.points.length);
+      const referenceEntries = references.map(s => ({ specimen: s, points: s.points })).filter(s => s.points.length);
+      if (!series.length && !referenceEntries.length) {
+        drawEmpty(ctx, canvas, t("chooseSpecimen"));
+        return;
+      }
+      const all = [...series, ...referenceEntries].flatMap(s => s.points);
+      const dataBounds = makeBounds(all.map(p => p.x), all.map(p => p.y));
+      state.currentCurveBounds = dataBounds;
+      if (!state.curveView) state.curveView = { ...dataBounds };
+      state.curveView = clampView(state.curveView, dataBounds);
+      const bounds = state.curveView;
+      const plot = makePlot(canvas, bounds, stressAxisLabel());
+      canvas._plot = plot;
+      drawAxes(ctx, plot);
+      withPlotClip(ctx, plot, () => {
+        for (const entry of series) {
+          const color = state.colors[entry.specimen.type] || state.colors["未知"];
+          drawLine(ctx, plot, entry.points, color, entry.specimen.averaged ? 3 : 1.4, entry.specimen.averaged ? 1 : 0.62);
+        }
+        for (const entry of referenceEntries) {
+          const color = entry.specimen.type === t("all") ? "#16202a" : (state.colors[entry.specimen.type] || state.colors["未知"]);
+          drawLine(ctx, plot, entry.points, color, numberOr(els.referenceWidth.value, 3), 0.95, true);
+        }
+      });
+      if (state.chartMode !== "avg" && state.chartMode !== "linearAvg") {
+        withPlotClip(ctx, plot, () => {
+          for (const f of features) {
+            if (f.yieldPoint) drawMarker(ctx, plot, f.yieldPoint, "#0f7b8f", 4);
+            if (f.peakPoint) drawMarker(ctx, plot, f.peakPoint, "#b3261e", 4);
+          }
+        });
+      }
+      const types = [...new Set(series.map(s => s.specimen.type))].map(type =>
+        `<span><span class="swatch" style="background:${state.colors[type] || state.colors["未知"]}"></span>${escapeHtml(displayTypeName(type))}</span>`
+      );
+      if (state.chartMode === "linearAvg") {
+        types.push(`<span><span class="swatch" style="background:#0f7b8f"></span>${t("linearSegment")}</span>`);
+      }
+      if (referenceEntries.length) {
+        types.push(`<span><span class="swatch" style="background:#16202a"></span>${t("meanReference")}</span>`);
+      }
+      els.curveLegend.innerHTML = types.join("");
+    }
+
+    function drawYieldChart(features) {
+      const canvas = els.yieldCanvas;
+      const ctx = setupCanvas(canvas);
+      const points = features.filter(f => f.yieldPoint && f.peakPoint);
+      if (!points.length) {
+        drawEmpty(ctx, canvas, t("noYield"));
+        return;
+      }
+      const xs = points.map(f => f.specimen.unifiedId);
+      const ys = points.flatMap(f => [f.yieldPoint.y, f.peakPoint.y]);
+      const bounds = makeBounds(xs, ys, 0.12);
+      bounds.xMin = 0;
+      bounds.xMax = 13;
+      const plot = makePlot(canvas, bounds, stressLabel());
+      drawAxes(ctx, plot, t("specimenId"));
+      withPlotClip(ctx, plot, () => {
+        for (const f of points) {
+          const xYield = f.specimen.unifiedId - 0.12;
+          const xPeak = f.specimen.unifiedId + 0.12;
+          drawMarker(ctx, plot, { x: xYield, y: f.yieldPoint.y }, "#0f7b8f", 4);
+          drawMarker(ctx, plot, { x: xPeak, y: f.peakPoint.y }, "#b3261e", 4);
+        }
+      });
+    }
+
+    function getPaperMetricValue(feature, metric) {
+      if (metric === "peak") return feature.peakPoint?.y;
+      if (metric === "yield") return feature.yieldPoint?.y;
+      if (metric === "stiffness") return feature.stiffness;
+      if (metric === "energy") return feature.energy;
+      if (metric === "thickness") return feature.specimen.thickness;
+      return NaN;
+    }
+
+    function getPaperMetricLabel(metric = els.paperMetric.value) {
+      const stressUnit = state.chartMode === "raw" ? t("axisMpa") : stressLabel();
+      const labels = {
+        peak: `${t("metric_peak")} [${stressUnit}]`,
+        yield: `${t("metric_yield")} [${stressUnit}]`,
+        stiffness: `${t("metric_stiffness")} [${stressUnit}/mm]`,
+        energy: `${t("metric_energy")} [${stressUnit}·mm]`,
+        thickness: `${t("metric_thickness")} [${t("axisMm")}]`
+      };
+      return labels[metric] || metric;
+    }
+
+    function summarizeValues(values, errorMode) {
+      const clean = values.filter(Number.isFinite);
+      const n = clean.length;
+      if (!n) return { n: 0, mean: NaN, sd: NaN, sem: NaN, ci95: NaN, error: 0, values: [] };
+      const avg = mean(clean);
+      const variance = n > 1 ? clean.reduce((a, v) => a + Math.pow(v - avg, 2), 0) / (n - 1) : 0;
+      const sd = Math.sqrt(variance);
+      const sem = n > 0 ? sd / Math.sqrt(n) : NaN;
+      const ci95 = sem * 1.96;
+      const error = errorMode === "sd" ? sd : errorMode === "sem" ? sem : errorMode === "ci95" ? ci95 : 0;
+      return { n, mean: avg, sd, sem, ci95, error, values: clean };
+    }
+
+    function makePaperStats(features) {
+      const metric = els.paperMetric.value;
+      const errorMode = els.paperError.value;
+      const byType = groupBy(features, f => f.specimen.type);
+      return [...byType].sort((a, b) => typeOrder(a[0]) - typeOrder(b[0])).map(([type, list]) => {
+        const values = list.map(f => getPaperMetricValue(f, metric));
+        return { type, label: displayTypeName(type), color: state.colors[type] || "#6b7280", ...summarizeValues(values, errorMode) };
+      }).filter(row => row.n);
+    }
+
+    function renderPaperFigure(specimens, features) {
+      const stats = makePaperStats(features);
+      state.lastPaperStats = stats;
+      const canvas = els.paperCanvas;
+      const ctx = setupCanvas(canvas);
+      drawPaperFigure(ctx, canvas, stats);
+      const metric = getPaperMetricLabel();
+      const err = els.paperError.value === "none" ? t("error_none") : t(`error_${els.paperError.value}`);
+      els.paperMeta.textContent = `${t("paperMetaPrefix")}: ${metric}, ${err}; n=${stats.reduce((a, s) => a + s.n, 0)}. ${t("paperMetaSuffix")}`;
+    }
+
+    function drawPaperFigure(ctx, canvas, stats, exportOptions = {}) {
+      const langFont = state.language === "en" ? "Arial" : "Microsoft YaHei";
+      const title = exportOptions.title ?? (els.paperTitle.value.trim() || t("figureFallbackTitle"));
+      const metricLabel = exportOptions.metricLabel ?? getPaperMetricLabel();
+      const errorMode = exportOptions.errorMode ?? els.paperError.value;
+      ctx.save();
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, canvas._w, canvas._h);
+      if (!stats.length) {
+        drawEmpty(ctx, canvas, t("noPaperData"));
+        ctx.restore();
+        return;
+      }
+      const plot = {
+        left: 78,
+        right: 26,
+        top: 54,
+        bottom: 72,
+        w: canvas._w,
+        h: canvas._h
+      };
+      const maxY = Math.max(...stats.map(s => s.mean + (errorMode === "none" ? 0 : s.error)), 1);
+      const yMax = niceCeil(maxY * 1.22);
+      const yMin = 0;
+      const xStep = (plot.w - plot.left - plot.right) / stats.length;
+      const barW = Math.min(58, xStep * 0.46);
+      ctx.fillStyle = "#111827";
+      ctx.font = `700 16px ${langFont}, Arial, sans-serif`;
+      ctx.textAlign = "center";
+      ctx.fillText(title, plot.w / 2, 26);
+      ctx.font = `12px ${langFont}, Arial, sans-serif`;
+      ctx.strokeStyle = "#111827";
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      ctx.moveTo(plot.left, plot.top);
+      ctx.lineTo(plot.left, plot.h - plot.bottom);
+      ctx.lineTo(plot.w - plot.right, plot.h - plot.bottom);
+      ctx.stroke();
+
+      const yToPx = value => plot.h - plot.bottom - (value - yMin) / (yMax - yMin) * (plot.h - plot.top - plot.bottom);
+      const ticks = 5;
+      ctx.textAlign = "right";
+      ctx.fillStyle = "#374151";
+      ctx.strokeStyle = "#d1d5db";
+      ctx.lineWidth = 0.8;
+      for (let i = 0; i <= ticks; i++) {
+        const value = yMin + (yMax - yMin) * i / ticks;
+        const y = yToPx(value);
+        ctx.beginPath();
+        ctx.moveTo(plot.left, y);
+        ctx.lineTo(plot.w - plot.right, y);
+        ctx.stroke();
+        ctx.fillText(formatNum(value, value >= 100 ? 0 : 1), plot.left - 8, y + 4);
+      }
+
+      stats.forEach((s, i) => {
+        const x = plot.left + xStep * (i + 0.5);
+        const y = yToPx(s.mean);
+        const zero = yToPx(0);
+        ctx.globalAlpha = 0.88;
+        ctx.fillStyle = s.color;
+        ctx.fillRect(x - barW / 2, y, barW, zero - y);
+        ctx.globalAlpha = 1;
+        ctx.strokeStyle = "#111827";
+        ctx.lineWidth = 1;
+        ctx.strokeRect(x - barW / 2, y, barW, zero - y);
+        if (errorMode !== "none" && Number.isFinite(s.error) && s.error > 0) {
+          const errTop = yToPx(s.mean + s.error);
+          const errBottom = yToPx(Math.max(0, s.mean - s.error));
+          ctx.strokeStyle = "#111827";
+          ctx.lineWidth = 1.4;
+          ctx.beginPath();
+          ctx.moveTo(x, errTop);
+          ctx.lineTo(x, errBottom);
+          ctx.moveTo(x - 9, errTop);
+          ctx.lineTo(x + 9, errTop);
+          ctx.moveTo(x - 9, errBottom);
+          ctx.lineTo(x + 9, errBottom);
+          ctx.stroke();
+        }
+        ctx.fillStyle = "#111827";
+        ctx.textAlign = "center";
+        ctx.font = `12px ${langFont}, Arial, sans-serif`;
+        ctx.fillText(s.label, x, plot.h - plot.bottom + 22);
+        ctx.fillStyle = "#6b7280";
+        ctx.fillText(`${t("nLabel")}=${s.n}`, x, plot.h - plot.bottom + 39);
+        ctx.fillStyle = "#111827";
+        ctx.font = `11px ${langFont}, Arial, sans-serif`;
+        s.values.forEach((value, j) => {
+          const jitter = s.values.length === 1 ? 0 : ((j / (s.values.length - 1)) - 0.5) * Math.min(34, barW * 0.62);
+          drawFilledCircle(ctx, x + jitter, yToPx(value), 3.2, "#ffffff", "#111827");
+        });
+      });
+
+      ctx.save();
+      ctx.translate(18, plot.top + (plot.h - plot.top - plot.bottom) / 2);
+      ctx.rotate(-Math.PI / 2);
+      ctx.fillStyle = "#111827";
+      ctx.font = `13px ${langFont}, Arial, sans-serif`;
+      ctx.textAlign = "center";
+      ctx.fillText(metricLabel, 0, 0);
+      ctx.restore();
+      ctx.textAlign = "center";
+      ctx.fillStyle = "#111827";
+      ctx.font = `13px ${langFont}, Arial, sans-serif`;
+      ctx.fillText(t("axisGroup"), plot.left + (plot.w - plot.left - plot.right) / 2, plot.h - 14);
+      ctx.restore();
+    }
+
+    function drawFilledCircle(ctx, x, y, r, fill, stroke) {
+      ctx.beginPath();
+      ctx.arc(x, y, r, 0, Math.PI * 2);
+      ctx.fillStyle = fill;
+      ctx.fill();
+      ctx.strokeStyle = stroke;
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+
+    function niceCeil(value) {
+      if (!Number.isFinite(value) || value <= 0) return 1;
+      const exp = Math.floor(Math.log10(value));
+      const base = Math.pow(10, exp);
+      const scaled = value / base;
+      const nice = scaled <= 1 ? 1 : scaled <= 2 ? 2 : scaled <= 5 ? 5 : 10;
+      return nice * base;
+    }
+
+    function exportPaperFigure() {
+      const features = getVisibleSpecimens().map(s => ({ specimen: s, ...computeFeatures(s) }));
+      const stats = makePaperStats(features);
+      const format = els.paperFormat.value;
+      if (format === "csv") {
+        downloadText(makePaperCsv(stats), `flexural_statistics_${els.paperMetric.value}.csv`, "text/csv;charset=utf-8");
+        els.paperMeta.textContent = t("csvExported");
+        return;
+      }
+      if (format === "svg") {
+        downloadText(makePaperSvg(stats), `flexural_figure_${els.paperMetric.value}.svg`, "image/svg+xml;charset=utf-8");
+        els.paperMeta.textContent = t("svgExported");
+        return;
+      }
+      const exportScale = 5;
+      const canvas = document.createElement("canvas");
+      canvas.width = 780 * exportScale;
+      canvas.height = 540 * exportScale;
+      canvas._w = 780;
+      canvas._h = 540;
+      const ctx = canvas.getContext("2d");
+      ctx.scale(exportScale, exportScale);
+      drawPaperFigure(ctx, canvas, stats, {
+        title: els.paperTitle.value.trim() || t("figureFallbackTitle"),
+        metricLabel: getPaperMetricLabel(),
+        errorMode: els.paperError.value
+      });
+      canvas.toBlob(blob => {
+        if (!blob) return;
+        downloadBlob(blob, `flexural_figure_${els.paperMetric.value}_600dpi.png`);
+        els.paperMeta.textContent = t("pngExported");
+      }, "image/png");
+    }
+
+    function makePaperCsv(stats) {
+      const header = ["type", "n", "mean", "sd", "sem", "ci95", "error_mode", "metric"];
+      const rows = stats.map(s => [
+        s.label,
+        s.n,
+        roundForExport(s.mean),
+        roundForExport(s.sd),
+        roundForExport(s.sem),
+        roundForExport(s.ci95),
+        els.paperError.value,
+        els.paperMetric.value
+      ]);
+      return [header, ...rows].map(row => row.map(csvCell).join(",")).join("\n");
+    }
+
+    function csvCell(value) {
+      const text = String(value ?? "");
+      return /[",\n]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
+    }
+
+    function roundForExport(value) {
+      return Number.isFinite(value) ? Number(value.toFixed(6)) : "";
+    }
+
+    function makePaperSvg(stats) {
+      const width = 780;
+      const height = 540;
+      const plot = { left: 86, right: 32, top: 62, bottom: 84, w: width, h: height };
+      const title = escapeXml(els.paperTitle.value.trim() || t("figureFallbackTitle"));
+      const metricLabel = escapeXml(getPaperMetricLabel());
+      const errorMode = els.paperError.value;
+      const maxY = Math.max(...stats.map(s => s.mean + (errorMode === "none" ? 0 : s.error)), 1);
+      const yMax = niceCeil(maxY * 1.22);
+      const yToPx = value => plot.h - plot.bottom - value / yMax * (plot.h - plot.top - plot.bottom);
+      const xStep = (plot.w - plot.left - plot.right) / Math.max(1, stats.length);
+      const barW = Math.min(58, xStep * 0.46);
+      const ticks = 5;
+      const parts = [];
+      parts.push(`<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">`);
+      parts.push(`<rect width="100%" height="100%" fill="#ffffff"/>`);
+      parts.push(`<text x="${width / 2}" y="28" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#111827">${title}</text>`);
+      for (let i = 0; i <= ticks; i++) {
+        const value = yMax * i / ticks;
+        const y = yToPx(value);
+        parts.push(`<line x1="${plot.left}" y1="${y}" x2="${width - plot.right}" y2="${y}" stroke="#d1d5db" stroke-width="0.8"/>`);
+        parts.push(`<text x="${plot.left - 8}" y="${y + 4}" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#374151">${formatNum(value, value >= 100 ? 0 : 1)}</text>`);
+      }
+      parts.push(`<path d="M${plot.left} ${plot.top} L${plot.left} ${height - plot.bottom} L${width - plot.right} ${height - plot.bottom}" fill="none" stroke="#111827" stroke-width="1.2"/>`);
+      stats.forEach((s, i) => {
+        const x = plot.left + xStep * (i + 0.5);
+        const y = yToPx(s.mean);
+        const zero = yToPx(0);
+        const color = escapeXml(s.color);
+        parts.push(`<rect x="${x - barW / 2}" y="${y}" width="${barW}" height="${zero - y}" fill="${color}" fill-opacity="0.88" stroke="#111827" stroke-width="1"/>`);
+        if (errorMode !== "none" && Number.isFinite(s.error) && s.error > 0) {
+          const errTop = yToPx(s.mean + s.error);
+          const errBottom = yToPx(Math.max(0, s.mean - s.error));
+          parts.push(`<path d="M${x} ${errTop} L${x} ${errBottom} M${x - 9} ${errTop} L${x + 9} ${errTop} M${x - 9} ${errBottom} L${x + 9} ${errBottom}" stroke="#111827" stroke-width="1.4" fill="none"/>`);
+        }
+        s.values.forEach((value, j) => {
+          const jitter = s.values.length === 1 ? 0 : ((j / (s.values.length - 1)) - 0.5) * Math.min(34, barW * 0.62);
+          parts.push(`<circle cx="${x + jitter}" cy="${yToPx(value)}" r="3.2" fill="#ffffff" stroke="#111827" stroke-width="1"/>`);
+        });
+        parts.push(`<text x="${x}" y="${height - plot.bottom + 24}" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#111827">${escapeXml(s.label)}</text>`);
+        parts.push(`<text x="${x}" y="${height - plot.bottom + 42}" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#6b7280">${escapeXml(t("nLabel"))}=${s.n}</text>`);
+      });
+      parts.push(`<text x="${plot.left + (width - plot.left - plot.right) / 2}" y="${height - 16}" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#111827">${escapeXml(t("axisGroup"))}</text>`);
+      parts.push(`<text x="20" y="${plot.top + (height - plot.top - plot.bottom) / 2}" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#111827" transform="rotate(-90 20 ${plot.top + (height - plot.top - plot.bottom) / 2})">${metricLabel}</text>`);
+      parts.push(`</svg>`);
+      return parts.join("");
+    }
+
+    function escapeXml(value) {
+      return String(value).replace(/[&<>"']/g, ch => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&apos;"
+      }[ch]));
+    }
+
+    function downloadText(text, filename, type) {
+      downloadBlob(new Blob([text], { type }), filename);
+    }
+
+    function downloadBlob(blob, filename) {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    function setupCanvas(canvas) {
+      const rect = canvas.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = Math.max(1, Math.floor(rect.width * dpr));
+      canvas.height = Math.max(1, Math.floor(rect.height * dpr));
+      const ctx = canvas.getContext("2d");
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, rect.width, rect.height);
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, rect.width, rect.height);
+      canvas._w = rect.width;
+      canvas._h = rect.height;
+      return ctx;
+    }
+
+    function makeBounds(xs, ys, padRatio = 0.08) {
+      const cleanXs = xs.filter(Number.isFinite);
+      const cleanYs = ys.filter(Number.isFinite);
+      let xMax = cleanXs.length ? Math.max(...cleanXs) : 1;
+      let yMax = cleanYs.length ? Math.max(...cleanYs) : 1;
+      xMax = Math.max(1, xMax);
+      yMax = Math.max(1, yMax);
+      const xPad = xMax * padRatio;
+      const yPad = yMax * padRatio;
+      return {
+        xMin: 0,
+        xMax: xMax + xPad,
+        yMin: 0,
+        yMax: yMax + yPad
+      };
+    }
+
+    function makePlot(canvas, bounds, yLabel) {
+      return {
+        w: canvas._w,
+        h: canvas._h,
+        left: 82,
+        right: 18,
+        top: 16,
+        bottom: 46,
+        bounds,
+        yLabel
+      };
+    }
+
+    function sx(plot, x) {
+      return plot.left + (x - plot.bounds.xMin) / (plot.bounds.xMax - plot.bounds.xMin) * (plot.w - plot.left - plot.right);
+    }
+
+    function sy(plot, y) {
+      return plot.h - plot.bottom - (y - plot.bounds.yMin) / (plot.bounds.yMax - plot.bounds.yMin) * (plot.h - plot.top - plot.bottom);
+    }
+
+    function drawAxes(ctx, plot, xLabel = "Verformung [mm]") {
+      ctx.save();
+      ctx.strokeStyle = "#c9d3de";
+      ctx.fillStyle = "#536271";
+      ctx.lineWidth = 1;
+      ctx.font = "12px Segoe UI, Microsoft YaHei, sans-serif";
+      const xTicks = 6;
+      const yTicks = 6;
+      ctx.textAlign = "center";
+      for (let i = 0; i <= xTicks; i++) {
+        const xVal = plot.bounds.xMin + (plot.bounds.xMax - plot.bounds.xMin) * i / xTicks;
+        const x = sx(plot, xVal);
+        ctx.beginPath();
+        ctx.moveTo(x, plot.top);
+        ctx.lineTo(x, plot.h - plot.bottom);
+        ctx.stroke();
+        ctx.fillText(formatNum(xVal, 2), x, plot.h - 22);
+      }
+      ctx.textAlign = "right";
+      for (let i = 0; i <= yTicks; i++) {
+        const yVal = plot.bounds.yMin + (plot.bounds.yMax - plot.bounds.yMin) * i / yTicks;
+        const y = sy(plot, yVal);
+        ctx.beginPath();
+        ctx.moveTo(plot.left, y);
+        ctx.lineTo(plot.w - plot.right, y);
+        ctx.stroke();
+        ctx.fillText(formatNum(yVal, 0), plot.left - 8, y + 4);
+      }
+      ctx.strokeStyle = "#536271";
+      ctx.beginPath();
+      ctx.moveTo(plot.left, plot.top);
+      ctx.lineTo(plot.left, plot.h - plot.bottom);
+      ctx.lineTo(plot.w - plot.right, plot.h - plot.bottom);
+      ctx.stroke();
+      ctx.fillStyle = "#293744";
+      ctx.textAlign = "center";
+      ctx.fillText(xLabel, plot.left + (plot.w - plot.left - plot.right) / 2, plot.h - 6);
+      ctx.save();
+      ctx.translate(Math.max(18, plot.left - 60), plot.h / 2 + 45);
+      ctx.rotate(-Math.PI / 2);
+      ctx.fillText(plot.yLabel, 0, 0);
+      ctx.restore();
+      ctx.restore();
+    }
+
+    function withPlotClip(ctx, plot, drawFn) {
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(plot.left, plot.top, plot.w - plot.left - plot.right, plot.h - plot.top - plot.bottom);
+      ctx.clip();
+      drawFn();
+      ctx.restore();
+    }
+
+    function drawLine(ctx, plot, points, color, width, alpha, dashed = false) {
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      ctx.strokeStyle = color;
+      ctx.lineWidth = width;
+      if (dashed) ctx.setLineDash([9, 6]);
+      ctx.beginPath();
+      points.forEach((p, i) => {
+        const x = sx(plot, p.x);
+        const y = sy(plot, p.y);
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      });
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    function clampView(view, dataBounds) {
+      if (!view) return { ...dataBounds };
+      const minSpanX = (dataBounds.xMax - dataBounds.xMin) * 0.02;
+      const minSpanY = (dataBounds.yMax - dataBounds.yMin) * 0.02;
+      let next = { ...view };
+      if (!Number.isFinite(next.xMin) || !Number.isFinite(next.xMax) || !Number.isFinite(next.yMin) || !Number.isFinite(next.yMax)) {
+        next = { ...dataBounds };
+      }
+      if (next.xMax - next.xMin < minSpanX) {
+        const mid = (next.xMax + next.xMin) / 2;
+        next.xMin = mid - minSpanX / 2;
+        next.xMax = mid + minSpanX / 2;
+      }
+      if (next.yMax - next.yMin < minSpanY) {
+        const mid = (next.yMax + next.yMin) / 2;
+        next.yMin = mid - minSpanY / 2;
+        next.yMax = mid + minSpanY / 2;
+      }
+      if (next.xMin < 0) {
+        next.xMax -= next.xMin;
+        next.xMin = 0;
+      }
+      if (next.yMin < 0) {
+        next.yMax -= next.yMin;
+        next.yMin = 0;
+      }
+      if (next.xMax <= next.xMin) next.xMax = next.xMin + minSpanX;
+      if (next.yMax <= next.yMin) next.yMax = next.yMin + minSpanY;
+      return next;
+    }
+
+    function zoomCurve(factor, anchorX = 0.5, anchorY = 0.5) {
+      if (!state.curveView) return;
+      const v = state.curveView;
+      const ax = v.xMin + (v.xMax - v.xMin) * anchorX;
+      const ay = v.yMin + (v.yMax - v.yMin) * anchorY;
+      state.curveView = {
+        xMin: ax - (ax - v.xMin) * factor,
+        xMax: ax + (v.xMax - ax) * factor,
+        yMin: ay - (ay - v.yMin) * factor,
+        yMax: ay + (v.yMax - ay) * factor
+      };
+      updateAll();
+    }
+
+    function panCurve(dxRatio, dyRatio) {
+      if (!state.curveView) return;
+      const v = state.curveView;
+      const dx = (v.xMax - v.xMin) * dxRatio;
+      const dy = (v.yMax - v.yMin) * dyRatio;
+      state.curveView = {
+        xMin: v.xMin + dx,
+        xMax: v.xMax + dx,
+        yMin: v.yMin + dy,
+        yMax: v.yMax + dy
+      };
+      updateAll();
+    }
+
+    function resetCurveView() {
+      state.curveView = state.currentCurveBounds ? { ...state.currentCurveBounds } : null;
+      updateAll();
+    }
+
+    function drawMarker(ctx, plot, point, color, radius) {
+      ctx.save();
+      ctx.fillStyle = color;
+      ctx.strokeStyle = "#fff";
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.arc(sx(plot, point.x), sy(plot, point.y), radius, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    function drawEmpty(ctx, canvas, text) {
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, canvas._w, canvas._h);
+      ctx.fillStyle = "#5f6d7a";
+      ctx.font = "14px Segoe UI, Microsoft YaHei, sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText(text, canvas._w / 2, canvas._h / 2);
+      ctx.textAlign = "start";
+    }
+
+    function formatNum(value, digits = 2) {
+      if (!Number.isFinite(value)) return "-";
+      return Number(value).toLocaleString(state.language === "en" ? "en-US" : "zh-CN", { maximumFractionDigits: digits, minimumFractionDigits: 0 });
+    }
+
+    function formatInt(value) {
+      if (!Number.isFinite(value)) return "0";
+      return Number(value).toLocaleString(state.language === "en" ? "en-US" : "zh-CN", { maximumFractionDigits: 0 });
+    }
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, ch => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
+      }[ch]));
+    }
+
+    async function loadDefaultCsv() {
+      els.status.textContent = t("loadingDefault");
+      try {
+        const response = await fetch("数据分析.csv", { cache: "no-store" });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const text = await response.text();
+        loadCsvText(text, "数据分析.csv");
+      } catch (error) {
+        els.status.textContent = t("autoLoadFailed");
+        els.sourceNote.textContent = t("loadPrompt");
+      }
+    }
+
+    els.languageMode.addEventListener("change", () => {
+      state.language = els.languageMode.value;
+      applyLanguage();
+      updateAll();
+    });
+
+    els.loadDefault.addEventListener("click", loadDefaultCsv);
+    els.fileInput.addEventListener("change", async () => {
+      const file = els.fileInput.files?.[0];
+      els.fileName.textContent = file ? file.name : t("noFileSelected");
+      if (!file) return;
+      const text = await file.text();
+      loadCsvText(text, file.name);
+    });
+    els.seriesFilter.addEventListener("input", renderSeriesList);
+    els.selectAll.addEventListener("click", () => {
+      state.selected = new Set(state.specimens.map(s => s.key));
+      renderSeriesList();
+      handleFilterChange();
+    });
+    els.selectNone.addEventListener("click", () => {
+      state.selected.clear();
+      renderSeriesList();
+      handleFilterChange();
+    });
+
+    [els.type3k, els.type1x1, els.type2x2].forEach(el => {
+      el.addEventListener("input", handleFilterChange);
+      el.addEventListener("change", handleFilterChange);
+    });
+
+    [
+      els.thicknessMode,
+      els.referenceThickness,
+      els.faceThickness3k,
+      els.faceThickness1x1,
+      els.faceThickness2x2,
+      els.arealPreMode,
+      els.arealDensity3k,
+      els.arealDensity1x1,
+      els.arealDensity2x2,
+      els.factor3k,
+      els.factor1x1,
+      els.factor2x2,
+      els.elasticFraction,
+      els.yieldDrop
+    ].filter(Boolean).forEach(el => {
+      el.addEventListener("input", () => { state.curveView = null; updateAll(); });
+      el.addEventListener("change", () => { state.curveView = null; updateAll(); });
+    });
+
+    function handleFilterChange() {
+      state.curveView = null;
+      updateAll();
+    }
+
+    [els.batchFilter, els.uidMin, els.uidMax, els.thicknessMin, els.thicknessMax, els.sampleMin, els.sampleMax].forEach(el => {
+      el.addEventListener("input", handleFilterChange);
+      el.addEventListener("change", handleFilterChange);
+    });
+
+    [els.referenceMode, els.referencePoints, els.referenceWidth, els.paperMetric, els.paperError, els.paperTitle].forEach(el => {
+      el.addEventListener("input", updateAll);
+      el.addEventListener("change", updateAll);
+    });
+
+    els.exportPaperFigure.addEventListener("click", exportPaperFigure);
+
+    els.resetFilters.addEventListener("click", () => {
+      els.batchFilter.value = "all";
+      els.uidMin.value = "";
+      els.uidMax.value = "";
+      els.thicknessMin.value = "";
+      els.thicknessMax.value = "";
+      els.sampleMin.value = "";
+      els.sampleMax.value = "";
+      handleFilterChange();
+    });
+
+    els.zoomIn.addEventListener("click", () => zoomCurve(0.72));
+    els.zoomOut.addEventListener("click", () => zoomCurve(1.38));
+    els.resetZoom.addEventListener("click", resetCurveView);
+
+    els.curveCanvas.addEventListener("wheel", event => {
+      if (!state.curveView || !els.curveCanvas._plot) return;
+      event.preventDefault();
+      const rect = els.curveCanvas.getBoundingClientRect();
+      const plot = els.curveCanvas._plot;
+      const px = clamp((event.clientX - rect.left - plot.left) / (plot.w - plot.left - plot.right), 0, 1);
+      const py = clamp((plot.h - plot.bottom - (event.clientY - rect.top)) / (plot.h - plot.top - plot.bottom), 0, 1);
+      zoomCurve(event.deltaY < 0 ? 0.82 : 1.22, px, py);
+    }, { passive: false });
+
+    els.curveCanvas.addEventListener("pointerdown", event => {
+      if (!state.curveView) return;
+      els.curveCanvas.setPointerCapture(event.pointerId);
+      state.dragging = { x: event.clientX, y: event.clientY };
+    });
+
+    els.curveCanvas.addEventListener("pointermove", event => {
+      if (!state.dragging || !els.curveCanvas._plot) return;
+      const plot = els.curveCanvas._plot;
+      const dx = event.clientX - state.dragging.x;
+      const dy = event.clientY - state.dragging.y;
+      state.dragging = { x: event.clientX, y: event.clientY };
+      const xRatio = -dx / (plot.w - plot.left - plot.right);
+      const yRatio = dy / (plot.h - plot.top - plot.bottom);
+      panCurve(xRatio, yRatio);
+    });
+
+    els.curveCanvas.addEventListener("pointerup", () => {
+      state.dragging = null;
+    });
+
+    els.curveCanvas.addEventListener("pointerleave", () => {
+      state.dragging = null;
+    });
+
+    function setMode(mode) {
+      state.chartMode = mode;
+      els.rawTab.classList.toggle("active", mode === "raw");
+      els.normTab.classList.toggle("active", mode === "norm");
+      els.avgTab.classList.toggle("active", mode === "avg");
+      els.linearAvgTab.classList.toggle("active", mode === "linearAvg");
+      updateAll();
+    }
+
+    els.rawTab.addEventListener("click", () => setMode("raw"));
+    els.normTab.addEventListener("click", () => setMode("norm"));
+    els.avgTab.addEventListener("click", () => setMode("avg"));
+    els.linearAvgTab.addEventListener("click", () => setMode("linearAvg"));
+    window.addEventListener("resize", () => updateAll());
+
+    applyLanguage();
+    updateFaceThicknessEstimate();
+    loadDefaultCsv();
+  </script>
+</body>
+</html>
