@@ -1,8 +1,14 @@
-# PA 复材弯折测试
+# PA Composite Material Testing
 
-PA composite material flexural testing project files.
+PA composite material testing project files.
 
 This repository currently focuses on the `弯折测试/` portion of the local project. It stores the flexural test analysis reports, test result spreadsheets, exported PDFs, CSV data, and the local HTML analysis helper.
+
+## Versioning
+
+The repository uses `VERSION` for the current tracked version and `CHANGELOG.md` for release notes. Update both files whenever the analysis tool, data workflow, or reports change in a way that should be traceable.
+
+The current version is `0.1.0`.
 
 Large raw datasets from the wider local project are intentionally not committed:
 

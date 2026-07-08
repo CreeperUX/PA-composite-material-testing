@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>弯折测试数据分析</title>
+  <title>Flexural Test Analysis</title>
   <style>
     :root {
       --bg: #e9ecef;
@@ -540,36 +540,36 @@
       <div class="brand">
         <div class="brand-mark">3PBV</div>
         <div>
-          <h1>弯折测试数据分析</h1>
-          <p>屈服特征 · 标准化 · 类型修正</p>
+          <h1>Flexural Test Analysis</h1>
+          <p>Test report · Series chart · Statistics · v0.1.0</p>
         </div>
       </div>
 
       <div class="section">
-        <h2>数据源</h2>
+        <h2>Data Source</h2>
         <div class="field">
-          <label for="languageMode">界面语言</label>
+          <label for="languageMode">Language</label>
           <select id="languageMode">
-            <option value="zh" selected>中文</option>
-            <option value="en">English</option>
+            <option value="zh">中文</option>
+            <option value="en" selected>English</option>
           </select>
         </div>
         <div class="field">
-          <button class="primary" id="loadDefault">读取 数据分析.csv</button>
+          <button class="primary" id="loadDefault">Load data analysis.csv</button>
         </div>
         <div class="field">
-          <label for="fileInput">选择 CSV</label>
+          <label for="fileInput">Choose CSV</label>
           <div class="file-control">
             <input class="file-input" id="fileInput" type="file" accept=".csv,text/csv">
-            <label class="file-button" id="fileButton" for="fileInput">选择文件</label>
-            <span class="file-name" id="fileName">未选择文件</span>
+            <label class="file-button" id="fileButton" for="fileInput">Choose file</label>
+            <span class="file-name" id="fileName">No file selected</span>
           </div>
         </div>
-        <div class="note" id="sourceNote">等待加载数据。</div>
+        <div class="note" id="sourceNote">Waiting for data.</div>
       </div>
 
       <div class="section">
-        <h2>试件类型</h2>
+        <h2>Specimen Types</h2>
         <div class="check-row">
           <input id="type3k" type="checkbox" checked>
           <div><span class="swatch" style="background:#315fba"></span>Roving</div>
@@ -585,96 +585,96 @@
       </div>
 
       <div class="section">
-        <h2>系列选择</h2>
+        <h2>Series Selection</h2>
         <div class="grid2">
-          <button id="selectAll">全选</button>
-          <button id="selectNone">清空</button>
+          <button id="selectAll">Select All</button>
+          <button id="selectNone">Clear</button>
         </div>
         <div class="field" style="margin-top:10px">
-          <label for="seriesFilter">搜索</label>
-          <input id="seriesFilter" type="search" placeholder="例如 Roving 12 或 01_24">
+          <label for="seriesFilter">Search</label>
+          <input id="seriesFilter" type="search" placeholder="e.g. Roving 12 or 01_24">
         </div>
         <div class="series-list" id="seriesList"></div>
       </div>
 
       <div class="section">
-        <h2>二级筛选</h2>
+        <h2>Filters</h2>
         <div class="field">
-          <label for="batchFilter">测试批次</label>
+          <label for="batchFilter">Test batch</label>
           <select id="batchFilter">
-            <option value="all">全部测试结果</option>
+            <option value="all">All test results</option>
           </select>
         </div>
         <div class="grid2">
           <div class="field">
-            <label for="uidMin">编号从</label>
+            <label for="uidMin">ID from</label>
             <input id="uidMin" type="number" min="1" max="12" step="1" placeholder="1">
           </div>
           <div class="field">
-            <label for="uidMax">编号到</label>
+            <label for="uidMax">ID to</label>
             <input id="uidMax" type="number" min="1" max="12" step="1" placeholder="12">
           </div>
         </div>
         <div class="grid2">
           <div class="field">
-            <label for="thicknessMin">厚度最小</label>
-            <input id="thicknessMin" type="number" step="0.01" placeholder="自动">
+            <label for="thicknessMin">Min thickness</label>
+            <input id="thicknessMin" type="number" step="0.01" placeholder="Auto">
           </div>
           <div class="field">
-            <label for="thicknessMax">厚度最大</label>
-            <input id="thicknessMax" type="number" step="0.01" placeholder="自动">
+            <label for="thicknessMax">Max thickness</label>
+            <input id="thicknessMax" type="number" step="0.01" placeholder="Auto">
           </div>
         </div>
         <div class="grid2">
           <div class="field">
-            <label for="sampleMin">采样序号从</label>
+            <label for="sampleMin">Sample index from</label>
             <input id="sampleMin" type="number" min="1" step="1" placeholder="1">
           </div>
           <div class="field">
-            <label for="sampleMax">采样序号到</label>
-            <input id="sampleMax" type="number" min="1" step="1" placeholder="末尾">
+            <label for="sampleMax">Sample index to</label>
+            <input id="sampleMax" type="number" min="1" step="1" placeholder="End">
           </div>
         </div>
-        <button id="resetFilters">重置二级筛选</button>
+        <button id="resetFilters">Reset filters</button>
       </div>
 
       <div class="section">
-        <h2>参考线</h2>
+        <h2>Reference Lines</h2>
         <div class="field">
-          <label for="referenceMode">整组参考线</label>
+          <label for="referenceMode">Group reference</label>
           <select id="referenceMode">
-            <option value="none">不显示</option>
-            <option value="typeMean" selected>各类型均值线</option>
-            <option value="allMean">全部选中均值线</option>
-            <option value="both">各类型 + 全部均值线</option>
+            <option value="none">Hide</option>
+            <option value="typeMean" selected>Mean line per type</option>
+            <option value="allMean">Mean of all selected</option>
+            <option value="both">Type means + all mean</option>
           </select>
         </div>
         <div class="grid2">
           <div class="field">
-            <label for="referencePoints">重采样点数</label>
+            <label for="referencePoints">Resampling points</label>
             <input id="referencePoints" type="number" min="50" max="500" step="10" value="180">
           </div>
           <div class="field">
-            <label for="referenceWidth">线宽</label>
+            <label for="referenceWidth">Line width</label>
             <input id="referenceWidth" type="number" min="1" max="6" step="0.5" value="3">
           </div>
         </div>
-        <div class="note" id="referenceNote">均值线按当前筛选后的曲线重采样计算，用于观察整组趋势。</div>
+        <div class="note" id="referenceNote">Mean lines are resampled from the currently filtered curves to show group trends.</div>
       </div>
 
       <div class="section">
-        <h2>标准化</h2>
+        <h2>Standardization</h2>
         <div class="field">
-          <label for="thicknessMode">厚度处理</label>
+          <label for="thicknessMode">Standardization method</label>
           <select id="thicknessMode">
-            <option value="none">不进行标准化</option>
-            <option value="inertiaReference" selected>截面惯性矩参考 I₀/I</option>
-            <option value="sandwichFace">D7249 简化表层应力</option>
-            <option value="arealSpecific">基于面密度的比性能</option>
+            <option value="none">No standardization</option>
+            <option value="inertiaReference" selected>Section inertia reference I₀/I</option>
+            <option value="sandwichFace">D7249 simplified face stress</option>
+            <option value="arealSpecific">Areal-density specific performance</option>
           </select>
         </div>
         <div class="param-group" data-standardization-group="reference">
-          <h3 data-i18n="referenceGroup">参考厚度</h3>
+          <h3 data-i18n="referenceGroup">Reference thickness</h3>
           <div class="field">
             <label for="referenceThickness">h₀ [mm]</label>
             <input id="referenceThickness" type="number" step="0.01" value="2.00">
@@ -682,128 +682,128 @@
         </div>
 
         <div class="param-group" data-standardization-group="face">
-          <h3 data-i18n="faceGroup">D7249 表层参数</h3>
+          <h3 data-i18n="faceGroup">D7249 face parameters</h3>
           <div class="grid3">
             <div class="field">
-              <label for="faceThickness3k">Roving 表层厚度 t [mm]</label>
+              <label for="faceThickness3k">Roving face thickness t [mm]</label>
               <input id="faceThickness3k" type="number" min="0.01" step="0.001" value="0.78">
             </div>
             <div class="field">
-              <label for="faceThickness1x1">Plain 表层厚度 t [mm]</label>
+              <label for="faceThickness1x1">Plain face thickness t [mm]</label>
               <input id="faceThickness1x1" type="number" min="0.01" step="0.001" value="0.576">
             </div>
             <div class="field">
-              <label for="faceThickness2x2">Twill 表层厚度 t [mm]</label>
+              <label for="faceThickness2x2">Twill face thickness t [mm]</label>
               <input id="faceThickness2x2" type="number" min="0.01" step="0.001" value="0.568">
             </div>
           </div>
-          <div class="note calc-note" id="faceThicknessEstimate">按两侧各 4 层纤维的三明治结构，使用材料类型对应的单侧表层厚度。</div>
+          <div class="note calc-note" id="faceThicknessEstimate">Uses material-specific face thickness per side for a sandwich structure with four fibre plies per face.</div>
         </div>
 
         <div class="param-group" data-standardization-group="areal">
-          <h3 data-i18n="arealGroup">面密度比性能</h3>
+          <h3 data-i18n="arealGroup">Areal-density specific performance</h3>
           <div class="field">
-            <label for="arealPreMode">预先标准化方式</label>
+            <label for="arealPreMode">Pre-standardization</label>
             <select id="arealPreMode">
-              <option value="none" selected>不预先标准化</option>
-              <option value="inertiaReference">截面惯性矩参考 I₀/I</option>
-              <option value="sandwichFace">D7249 简化表层应力</option>
+              <option value="none" selected>No pre-standardization</option>
+              <option value="inertiaReference">Section inertia reference I₀/I</option>
+              <option value="sandwichFace">D7249 simplified face stress</option>
             </select>
           </div>
           <div class="grid3">
             <div class="field">
-              <label for="arealDensity3k">Roving 面密度 [g/m²]</label>
+              <label for="arealDensity3k">Roving areal density [g/m²]</label>
               <input id="arealDensity3k" type="number" min="0.01" step="0.1" value="132.9">
             </div>
             <div class="field">
-              <label for="arealDensity1x1">Plain 面密度 [g/m²]</label>
+              <label for="arealDensity1x1">Plain areal density [g/m²]</label>
               <input id="arealDensity1x1" type="number" min="0.01" step="0.1" value="132.9">
             </div>
             <div class="field">
-              <label for="arealDensity2x2">Twill 面密度 [g/m²]</label>
+              <label for="arealDensity2x2">Twill areal density [g/m²]</label>
               <input id="arealDensity2x2" type="number" min="0.01" step="0.1" value="132.9">
             </div>
           </div>
         </div>
 
         <div class="param-group" data-standardization-group="factor">
-          <h3 data-i18n="factorGroup">材料类型修正</h3>
+          <h3 data-i18n="factorGroup">Material type correction</h3>
           <div class="grid3">
             <div class="field">
-              <label for="factor3k">Roving 系数</label>
+              <label for="factor3k">Roving factor</label>
               <input id="factor3k" type="number" step="0.01" value="1">
             </div>
             <div class="field">
-              <label for="factor1x1">Plain 系数</label>
+              <label for="factor1x1">Plain factor</label>
               <input id="factor1x1" type="number" step="0.01" value="1">
             </div>
             <div class="field">
-              <label for="factor2x2">Twill 系数</label>
+              <label for="factor2x2">Twill factor</label>
               <input id="factor2x2" type="number" step="0.01" value="1">
             </div>
           </div>
         </div>
-        <div class="note" id="normalizationNote">截面惯性矩参考模式按整矩形截面 I = b h³ / 12，把曲线换算到参考厚度 h₀；当前数据无宽度列时默认 b 一致。</div>
+        <div class="note" id="normalizationNote">Section-inertia reference mode converts curves to reference thickness h₀ using I = b h³ / 12. With no width column in the CSV, b is assumed constant.</div>
       </div>
 
       <div class="section">
-        <h2>屈服识别</h2>
+        <h2>Yield Detection</h2>
         <div class="field">
-          <label for="elasticFraction">初始弹性段比例</label>
+          <label for="elasticFraction">Initial elastic fraction</label>
           <input id="elasticFraction" type="number" min="0.05" max="0.45" step="0.01" value="0.18">
         </div>
         <div class="field">
-          <label for="yieldDrop">斜率衰减阈值</label>
+          <label for="yieldDrop">Slope drop threshold</label>
           <input id="yieldDrop" type="number" min="0.2" max="0.95" step="0.05" value="0.75">
         </div>
-        <div class="note" id="yieldNote">屈服点按平滑后局部斜率低于初始斜率阈值识别；若未出现明显衰减，则取峰值点作为特征点。</div>
+        <div class="note" id="yieldNote">Yield is detected when the smoothed local slope drops below the initial-slope threshold; if no clear drop is found, the peak point is used.</div>
       </div>
     </aside>
 
     <main>
       <div class="toolbar">
         <div>
-          <div class="status" id="status">未加载数据</div>
+          <div class="status" id="status">No data loaded</div>
         </div>
         <div class="tabs" aria-label="chart mode">
-          <button id="rawTab" class="active">原始</button>
-          <button id="normTab">标准化</button>
-          <button id="avgTab">类型均值</button>
-          <button id="linearAvgTab">类型均值：带裁切</button>
+          <button id="rawTab" class="active">Raw</button>
+          <button id="normTab">Standardized</button>
+          <button id="avgTab">Type mean</button>
+          <button id="linearAvgTab">Type mean: cropped</button>
         </div>
       </div>
 
       <section class="kpis">
         <div class="kpi">
-          <div class="label">试件数量</div>
+          <div class="label">Specimens</div>
           <div class="value" id="kpiSpecimens">0</div>
           <div class="detail" id="kpiTypes">-</div>
         </div>
         <div class="kpi">
-          <div class="label">采样点</div>
+          <div class="label">Data points</div>
           <div class="value" id="kpiPoints">0</div>
-          <div class="detail">当前筛选范围</div>
+          <div class="detail">Current filters</div>
         </div>
         <div class="kpi">
-          <div class="label">平均峰值</div>
+          <div class="label">Mean peak</div>
           <div class="value" id="kpiPeak">-</div>
           <div class="detail" id="kpiPeakUnit">MPa</div>
         </div>
         <div class="kpi">
-          <div class="label">平均屈服点</div>
+          <div class="label">Mean yield</div>
           <div class="value" id="kpiYield">-</div>
-          <div class="detail">自动识别</div>
+          <div class="detail">Auto detected</div>
         </div>
       </section>
 
       <div class="layout">
         <section class="panel">
           <div class="panel-header">
-            <h2>弯曲应力-变形曲线</h2>
+            <h2>Flexural Stress-Deflection Curves</h2>
             <div class="chart-tools">
-              <button id="zoomIn">放大</button>
-              <button id="zoomOut">缩小</button>
-              <button id="resetZoom">重置视图</button>
+              <button id="zoomIn">Zoom in</button>
+              <button id="zoomOut">Zoom out</button>
+              <button id="resetZoom">Reset view</button>
               <div class="legend" id="curveLegend"></div>
             </div>
           </div>
@@ -811,16 +811,16 @@
             <div class="chart-wrap">
               <canvas id="curveCanvas"></canvas>
             </div>
-            <div class="chart-hint">滚轮缩放，拖拽平移；重置视图会匹配当前筛选后的数据范围。</div>
+            <div class="chart-hint">Mouse wheel to zoom, drag to pan; reset view fits the active data range.</div>
           </div>
         </section>
 
         <section class="panel">
           <div class="panel-header">
-            <h2>屈服特征图</h2>
+            <h2>Yield Feature Plot</h2>
             <div class="legend">
-              <span><span class="swatch" style="background:#0f7b8f"></span>屈服</span>
-              <span><span class="swatch" style="background:#b3261e"></span>峰值</span>
+              <span><span class="swatch" style="background:#0f7b8f"></span>Yield</span>
+              <span><span class="swatch" style="background:#b3261e"></span>Peak</span>
             </div>
           </div>
           <div class="panel-body">
@@ -833,7 +833,7 @@
 
       <section class="panel" style="margin-top:14px">
         <div class="panel-header">
-          <h2>材料类型对比</h2>
+          <h2>Material Type Comparison</h2>
           <div class="status" id="summaryStatus">-</div>
         </div>
         <div class="panel-body">
@@ -844,20 +844,20 @@
       </section>
       <section class="panel" style="margin-top:14px">
         <div class="panel-header">
-          <h2 data-i18n="paperFigureTitle">论文统计图</h2>
+          <h2 data-i18n="paperFigureTitle">Publication Figure</h2>
           <div class="chart-tools">
             <select id="paperMetric">
-              <option value="peak" selected>峰值应力</option>
-              <option value="yield">屈服应力</option>
-              <option value="stiffness">初始斜率</option>
-              <option value="energy">曲线面积</option>
-              <option value="thickness">厚度</option>
+              <option value="peak" selected>Peak stress</option>
+              <option value="yield">Yield stress</option>
+              <option value="stiffness">Initial slope</option>
+              <option value="energy">Curve area</option>
+              <option value="thickness">Thickness</option>
             </select>
             <select id="paperError">
               <option value="sd" selected>SD</option>
               <option value="sem">SEM</option>
               <option value="ci95">95% CI</option>
-              <option value="none">无误差条</option>
+              <option value="none">No error bar</option>
             </select>
             <select id="paperFormat">
               <option value="png" selected>PNG 600 dpi</option>
@@ -865,21 +865,22 @@
               <option value="csv">CSV</option>
             </select>
             <input id="paperTitle" type="text" placeholder="Figure title">
-            <button id="exportPaperFigure">导出</button>
+            <button id="exportPaperFigure">Export</button>
           </div>
         </div>
         <div class="panel-body">
           <div class="chart-wrap paper">
             <canvas id="paperCanvas"></canvas>
           </div>
-          <div class="paper-meta" id="paperMeta">统计图基于当前筛选、当前原始/标准化视图和屈服识别参数生成。</div>
+          <div class="paper-meta" id="paperMeta">Generated from the active filters, chart mode, standardization, and yield settings.</div>
         </div>
       </section>
     </main>
   </div>
 
   <script>
-    const initialLanguage = new URLSearchParams(window.location.search).get("lang") === "en" ? "en" : "zh";
+    const APP_VERSION = "0.1.0";
+    const initialLanguage = new URLSearchParams(window.location.search).get("lang") === "zh" ? "zh" : "en";
 
     const state = {
       rows: [],
@@ -1335,7 +1336,7 @@
       document.title = t("appTitle");
       if (els.languageMode) els.languageMode.value = state.language;
       setText(".brand h1", t("appTitle"));
-      setText(".brand p", t("appSubtitle"));
+      setText(".brand p", `${t("appSubtitle")} · v${APP_VERSION}`);
       updateI18nNodes();
       const sectionTitles = document.querySelectorAll("aside .section h2");
       [
