@@ -8,6 +8,13 @@ This project follows Semantic Versioning where practical:
 - MINOR version for new analysis features or substantial UI/reporting improvements.
 - PATCH version for fixes, wording changes, and documentation-only updates.
 
+## [0.1.2] - 2026-07-09
+
+### Changed
+
+- Reworked the README into a bilingual English and Chinese project overview.
+- Updated the documented repository version to `0.1.2`.
+
 ## [0.1.1] - 2026-07-08
 
 ### Changed
