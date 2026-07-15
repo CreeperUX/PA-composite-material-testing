@@ -1,0 +1,17 @@
+* text=auto
+
+*.md text eol=lf
+*.html text eol=lf
+*.csv text eol=lf
+*.txt text eol=lf
+
+# Engineering and office formats should not produce text diffs.
+*.dwg binary
+*.iam binary
+*.idw binary
+*.ipj binary
+*.ipt binary
+*.pdf binary
+*.stp binary
+*.xls binary
+*.xlsx binary

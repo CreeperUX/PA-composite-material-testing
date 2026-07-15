@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Impact Test Drop Height Calculator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #f3f4f6;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+        }
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+
+    <div class="max-w-md w-full glass-card rounded-3xl p-8 space-y-6">
+        <div class="text-center">
+            <h1 class="text-2xl font-bold text-gray-800">Impact Test Calculator</h1>
+            <p class="text-gray-500 text-sm mt-2">Based on 12.5kg Drop Test Experimental Fit</p>
+        </div>
+
+        <!-- Physical Parameters Display -->
+        <div class="grid grid-cols-2 gap-4 bg-gray-50 p-4 rounded-2xl border border-gray-100">
+            <div class="text-center">
+                <span class="block text-xs text-gray-400 uppercase font-semibold">Fixed Mass</span>
+                <span class="text-lg font-bold text-blue-600">12.5 <small>kg</small></span>
+            </div>
+            <div class="text-center border-l border-gray-200">
+                <span class="block text-xs text-gray-400 uppercase font-semibold">Fitting Slope (2g')</span>
+                <span class="text-lg font-bold text-blue-600">19.70</span>
+            </div>
+        </div>
+
+        <!-- Input Section -->
+        <div class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1 ml-1">Target Impact Energy (Joules)</label>
+                <div class="relative">
+                    <input type="number" id="energyInput" placeholder="Enter target Joules"
+                        class="w-full px-4 py-4 bg-white border border-gray-200 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all text-lg"
+                        step="0.1">
+                    <span class="absolute right-4 top-1/2 -translate-y-1-2 text-gray-400 font-medium">J</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Result Display -->
+        <div id="resultArea" class="hidden animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <div class="bg-blue-600 rounded-2xl p-6 text-white text-center shadow-lg shadow-blue-200">
+                <span class="block text-sm opacity-80 mb-1">Recommended Release Height</span>
+                <div class="text-5xl font-black mb-1">
+                    <span id="heightResult">0.000</span><small class="text-xl ml-1">m</small>
+                </div>
+                <div class="text-sm opacity-90">
+                    Expected Impact Velocity: <span id="velocityResult">0.00</span> m/s
+                </div>
+            </div>
+
+            <div class="mt-4 p-4 bg-orange-50 rounded-xl border border-orange-100 flex items-start gap-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-orange-500 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                </svg>
+                <p class="text-xs text-orange-700 leading-relaxed">
+                    <b>Note:</b> According to the model, this tower has an initial loss height of ~0.246m. Results below this value may not be physically achievable.
+                </p>
+            </div>
+        </div>
+
+        <!-- Placeholder -->
+        <div id="placeholder" class="text-center py-10 text-gray-300 italic">
+            Enter energy value to start calculation
+        </div>
+
+        <div class="text-[10px] text-gray-400 text-center leading-tight">
+            Logic: $H = ((\frac{2E}{m}) + 4.85) / 19.70$<br>
+            Derived from linear fit of $V^2$ vs $H$
+        </div>
+    </div>
+
+    <script>
+        const energyInput = document.getElementById('energyInput');
+        const heightResult = document.getElementById('heightResult');
+        const velocityResult = document.getElementById('velocityResult');
+        const resultArea = document.getElementById('resultArea');
+        const placeholder = document.getElementById('placeholder');
+
+        const MASS = 12.5;
+        const SLOPE = 19.70;
+        const INTERCEPT = -4.85;
+
+        energyInput.addEventListener('input', (e) => {
+            const energy = parseFloat(e.target.value);
+
+            if (!isNaN(energy) && energy > 0) {
+                // 1. Calculate v^2 from E = 0.5 * m * v^2
+                const targetV2 = (2 * energy) / MASS;
+
+                // 2. Inverse calculation from fit: v^2 = slope * H + intercept -> H = (v^2 - intercept) / slope
+                const requiredH = (targetV2 - INTERCEPT) / SLOPE;
+
+                // 3. Calculate impact velocity v
+                const v = Math.sqrt(targetV2);
+
+                heightResult.innerText = requiredH.toFixed(3);
+                velocityResult.innerText = v.toFixed(2);
+
+                resultArea.classList.remove('hidden');
+                placeholder.classList.add('hidden');
+            } else {
+                resultArea.classList.add('hidden');
+                placeholder.classList.remove('hidden');
+            }
+        });
+    </script>
+</body>
+</html>

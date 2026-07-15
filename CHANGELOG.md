@@ -8,6 +8,25 @@ This project follows Semantic Versioning where practical:
 - MINOR version for new analysis features or substantial UI/reporting improvements.
 - PATCH version for fixes, wording changes, and documentation-only updates.
 
+## [0.2.0] - 2026-07-15
+
+### Added
+
+- Added material-property reports and English four-point flexural-test forms.
+- Added section-level README indexes and Git attributes for engineering binary formats.
+- Added a repository-language policy and an automated language check.
+- Added 14 hash-verified STEP export copies, grouped by fixture or specimen, with an integrity manifest.
+
+### Changed
+
+- Reorganized version-controlled files under `materials/` and `tests/`.
+- Split flexural-test content into `analysis/`, `docs/`, `forms/`, and `test-results/` without separating the analysis tool from its default CSV.
+- Renamed repository-authored paths, documentation, analysis fields, and user-interface text to English.
+- Kept German third-party reports and original German machine exports unchanged.
+- Kept native Inventor working files and non-English formatted workbooks outside Git.
+- Restricted CAD publication to copied STEP exports so native working files remain unchanged.
+- Expanded the repository overview and storage policy to match the revised project scope.
+
 ## [0.1.2] - 2026-07-09
 
 ### Changed
