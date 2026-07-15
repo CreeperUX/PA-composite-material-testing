@@ -1,5 +1,7 @@
 # Flexural Test Analysis Report
 
+[English](flexural-test-analysis-report.md) | [Chinese](../zh/flexural-test-analysis-report.md)
+
 ## 1. Report Objective
 
 This document summarizes the flexural test data analysis, including the raw test data, thickness-standardization method, material-type comparison, statistical results, and final conclusions.
@@ -8,8 +10,8 @@ This document summarizes the flexural test data analysis, including the raw test
 
 | Item | Content |
 |---|---|
-| Data file | [`analysis/data-analysis.csv`](../../analysis/data-analysis.csv) |
-| Analysis tool | [`analysis/data-analysis-tool.html`](../../analysis/data-analysis-tool.html) |
+| Data file | [`analysis/data-analysis.csv`](../../../analysis/data-analysis.csv) |
+| Analysis tool | [`analysis/data-analysis-tool.html`](../../../analysis/data-analysis-tool.html) |
 | Test type | Three-point flexural test |
 | Material types | Roving / `3k`, Plain / `1x1`, Twill / `2x2` |
 | Main raw metrics | `Deflection [mm]`, `Standard Stress [MPa]`, `Thickness h [mm]` |
@@ -165,7 +167,7 @@ After D7249 face-stress standardization, the peak values of the three material t
 
 ### 6.3 Material-Type Mean Curves
 
-Material-type mean curves should be exported from [`analysis/data-analysis-tool.html`](../../analysis/data-analysis-tool.html) using either the "Type mean" or "Type mean: cropped" view. For ultimate-strength comparison, the D7249-standardized peak should be prioritized. For initial-response comparison, the cropped linear mean curve and initial slope should be prioritized.
+Material-type mean curves should be exported from [`analysis/data-analysis-tool.html`](../../../analysis/data-analysis-tool.html) using either the "Type mean" or "Type mean: cropped" view. For ultimate-strength comparison, the D7249-standardized peak should be prioritized. For initial-response comparison, the cropped linear mean curve and initial slope should be prioritized.
 
 ### 6.4 Publication Figures
 

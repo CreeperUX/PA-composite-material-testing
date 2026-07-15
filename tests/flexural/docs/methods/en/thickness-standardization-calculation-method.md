@@ -1,5 +1,7 @@
 # Canonical Thickness-Standardization Calculation Method
 
+[English](thickness-standardization-calculation-method.md) | [Chinese](../zh/thickness-standardization-calculation-method.md)
+
 ## 1. Purpose
 
 This document defines the only thickness-standardization method used by the project: sandwich face-stress standardization. It converts flexural-test specimens with different total and core thicknesses to a common face-stress basis, and optionally to the peak load of a reference geometry. The objective is to reduce geometric bias when material systems are compared.
@@ -37,7 +39,7 @@ If a dataset contains only `Thickness h [mm]` and an already calculated `Standar
 
 ## 3. Material properties and face-thickness estimates
 
-The two reports in [`materials/fabric-reports`](../../../../materials/fabric-reports/) provide the material parameters used to estimate face thickness when direct measurements are unavailable.
+The two reports in [`materials/fabric-reports`](../../../../../materials/fabric-reports/) provide the material parameters used to estimate face thickness when direct measurements are unavailable.
 
 ### 3.1 Physical-value module
 
@@ -51,8 +53,8 @@ The naming convention is:
 
 | Source | Fabric | Fibre areal weight (FAW) | Total areal weight | Resin/powder weight | Fibre density | Fibre |
 |---|---|---:|---:|---:|---:|---|
-| [`ECC07230189 Gewebeanalyse Entwicklung Twill.pdf`](<../../../../materials/fabric-reports/ECC07230189 Gewebeanalyse Entwicklung Twill.pdf>) | Twill / Köper | `131.8 g/m²` | `140.1 g/m²` | `8.3 g/m²` | `1.78 g/cm³` | Tenax-E IMS65 24K E23 |
-| [`ECC07230190 Gewebeanalyse Entwicklung Playnwoven.pdf`](<../../../../materials/fabric-reports/ECC07230190 Gewebeanalyse Entwicklung Playnwoven.pdf>) | Plain / Leinwand | `134.0 g/m²` | `142.3 g/m²` | `8.3 g/m²` | `1.78 g/cm³` | Tenax-E IMS65 24K E23 |
+| [`ECC07230189 Gewebeanalyse Entwicklung Twill.pdf`](<../../../../../materials/fabric-reports/ECC07230189 Gewebeanalyse Entwicklung Twill.pdf>) | Twill / Köper | `131.8 g/m²` | `140.1 g/m²` | `8.3 g/m²` | `1.78 g/cm³` | Tenax-E IMS65 24K E23 |
+| [`ECC07230190 Gewebeanalyse Entwicklung Playnwoven.pdf`](<../../../../../materials/fabric-reports/ECC07230190 Gewebeanalyse Entwicklung Playnwoven.pdf>) | Plain / Leinwand | `134.0 g/m²` | `142.3 g/m²` | `8.3 g/m²` | `1.78 g/cm³` | Tenax-E IMS65 24K E23 |
 
 **Default calculation inputs**
 
@@ -91,8 +93,8 @@ The areal weights, powder weights, and fibre densities for `1x1` and `2x2` come 
 
 | Code | Material | Fabric/tow description | Source | FAW | Total areal weight | Resin/powder | Fibre density | Fibre/grade | Status |
 |---|---|---|---|---:|---:|---:|---:|---|---|
-| `1x1` | Plain / Leinwand | Plain fabric | [`ECC07230190...Playnwoven.pdf`](<../../../../materials/fabric-reports/ECC07230190 Gewebeanalyse Entwicklung Playnwoven.pdf>) | `134.0 g/m²` | `142.3 g/m²` | `8.3 g/m²` | `1.78 g/cm³` | Tenax-E IMS65 24K E23 | Reported |
-| `2x2` | Twill / Köper | Twill fabric | [`ECC07230189...Twill.pdf`](<../../../../materials/fabric-reports/ECC07230189 Gewebeanalyse Entwicklung Twill.pdf>) | `131.8 g/m²` | `140.1 g/m²` | `8.3 g/m²` | `1.78 g/cm³` | Tenax-E IMS65 24K E23 | Reported |
+| `1x1` | Plain / Leinwand | Plain fabric | [`ECC07230190...Playnwoven.pdf`](<../../../../../materials/fabric-reports/ECC07230190 Gewebeanalyse Entwicklung Playnwoven.pdf>) | `134.0 g/m²` | `142.3 g/m²` | `8.3 g/m²` | `1.78 g/cm³` | Tenax-E IMS65 24K E23 | Reported |
+| `2x2` | Twill / Köper | Twill fabric | [`ECC07230189...Twill.pdf`](<../../../../../materials/fabric-reports/ECC07230189 Gewebeanalyse Entwicklung Twill.pdf>) | `131.8 g/m²` | `140.1 g/m²` | `8.3 g/m²` | `1.78 g/cm³` | Tenax-E IMS65 24K E23 | Reported |
 | `3K` | Conventional carbon fabric / Roving | Non-tape 3K fabric | Public supplier data | `200-210 g/m²` | About `200-210 g/m²` dry | No powder included | `1.78 g/cm³` | Supplier-dependent 3K fibre | Typical published value |
 
 The current thickness parameters for four plies per face are:

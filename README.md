@@ -48,7 +48,7 @@ Keep raw data in OneDrive or institutional storage. Use Git LFS, Zenodo, OSF, or
 
 ### Language and versioning
 
-Repository-authored technical content uses English, while original German laboratory and supplier sources remain unchanged. Every README provides an English section first and a Chinese reading-support section second. See [`docs/language-policy.md`](docs/language-policy.md).
+Repository-authored technical content uses English, while original German laboratory and supplier sources remain unchanged. Every README provides an English section first and a Chinese reading-support section second. Separate translated documents use matching filenames in sibling `en/` and `zh/` directories. See [`docs/language-policy.md`](docs/language-policy.md).
 
 The current repository version is `0.2.0`. `VERSION` stores the version number and `CHANGELOG.md` records traceable changes. Semantic Versioning is followed where practical.
 
@@ -98,6 +98,6 @@ Autodesk Inventor 原生文件、工作图纸和其他 CAD 工作资料仅保留
 
 ### 语言与版本管理
 
-仓库自行编写的技术内容以英语为准，德语实验室报告和供应商原始资料保持不变。所有 README 均采用英语在前、中文阅读支持在后的结构。详细规则见 [`docs/language-policy.md`](docs/language-policy.md)。
+仓库自行编写的技术内容以英语为准，德语实验室报告和供应商原始资料保持不变。所有 README 均采用英语在前、中文阅读支持在后的结构。独立翻译文档使用相同文件名，并分别存放在同级 `en/` 与 `zh/` 目录中。详细规则见 [`docs/language-policy.md`](docs/language-policy.md)。
 
 当前仓库版本为 `0.2.0`。`VERSION` 保存版本号，`CHANGELOG.md` 记录可追踪的变更；在适用情况下遵循语义化版本规则。

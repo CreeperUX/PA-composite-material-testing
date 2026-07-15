@@ -1,6 +1,8 @@
 # How the flexural-test data analysis tool works
 
-This document describes the interface and embedded JavaScript logic in [`data-analysis-tool.html`](../../analysis/data-analysis-tool.html). The tool reads flexural-test data, filters and standardizes curves, identifies characteristic points, generates statistical charts, and exports results.
+[English](analysis-tool-implementation.md) | [Chinese](../zh/analysis-tool-implementation.md)
+
+This document describes the interface and embedded JavaScript logic in [`data-analysis-tool.html`](../../../analysis/data-analysis-tool.html). The tool reads flexural-test data, filters and standardizes curves, identifies characteristic points, generates statistical charts, and exports results.
 
 ## 1. Scope
 
@@ -8,7 +10,7 @@ The analysis tool is a standalone browser application for processed three-point 
 
 Its main functions are:
 
-- load the default [`data-analysis.csv`](../../analysis/data-analysis.csv) or a manually selected CSV;
+- load the default [`data-analysis.csv`](../../../analysis/data-analysis.csv) or a manually selected CSV;
 - filter curves by material type, specimen ID, test batch, thickness, and sample index;
 - switch between raw apparent stress, thickness-normalized stress, simplified D7249 face stress, and areal-density-specific performance;
 - detect the peak point, yield point, initial slope, and curve area for every specimen;

@@ -29,6 +29,7 @@ TEXT_FILENAMES = {"VERSION"}
 README_NAME = "README.md"
 ENGLISH_HEADING = "## English"
 CHINESE_HEADING = "## \u4e2d\u6587"
+CHINESE_DIRECTORY = "zh"
 
 
 def tracked_paths() -> list[Path]:
@@ -42,6 +43,11 @@ def tracked_paths() -> list[Path]:
 
 def is_text_file(path: Path) -> bool:
     return path.name in TEXT_FILENAMES or path.suffix.lower() in TEXT_SUFFIXES
+
+
+def is_chinese_document(path: Path) -> bool:
+    """Return whether a document is intentionally stored in a Chinese directory."""
+    return CHINESE_DIRECTORY in path.parts
 
 
 def validate_bilingual_readme(path: Path, content: str) -> list[str]:
@@ -101,6 +107,13 @@ def main() -> int:
             failures.extend(validate_bilingual_readme(path, content))
             continue
 
+        if is_chinese_document(path):
+            if path.suffix.lower() == ".md" and not HAN_PATTERN.search(content):
+                failures.append(
+                    f"Chinese Markdown document contains no Chinese text: {display_path}"
+                )
+            continue
+
         for line_number, line in enumerate(content.splitlines(), start=1):
             if HAN_PATTERN.search(line):
                 failures.append(
@@ -114,8 +127,9 @@ def main() -> int:
         return 1
 
     print(
-        "Repository language check passed: technical content is English/German, "
-        "and README files are English-first bilingual documents."
+        "Repository language check passed: authoritative technical content is "
+        "English/German, README files are English-first bilingual documents, "
+        "and Chinese documents are isolated under zh directories."
     )
     return 0
 
