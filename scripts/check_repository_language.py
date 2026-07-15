@@ -38,7 +38,9 @@ FENCE_PATTERN = re.compile(r"^\s*(```|~~~)")
 UNORDERED_LIST_PATTERN = re.compile(r"^(\s*)[-+*]\s+")
 ORDERED_LIST_PATTERN = re.compile(r"^(\s*)\d+\.\s+")
 MARKDOWN_LINK_PATTERN = re.compile(r"\[[^\]]+\]\([^)]+\)")
-MATH_DELIMITERS = {"$$", r"\[", r"\]"}
+INTERNAL_CITATION_PATTERN = re.compile(r"cite[^]*")
+LEGACY_MATH_DELIMITER_PATTERN = re.compile(r"\\[()\[\]]")
+MATH_DELIMITERS = {"$$"}
 
 
 def tracked_paths() -> list[Path]:
@@ -252,6 +254,23 @@ def main() -> int:
         except UnicodeDecodeError:
             failures.append(f"Text file is not valid UTF-8: {display_path}")
             continue
+
+        if path.suffix.lower() == ".md":
+            for line_number, line in enumerate(content.splitlines(), start=1):
+                if INTERNAL_CITATION_PATTERN.search(line):
+                    failures.append(
+                        "Unrenderable internal citation placeholder found: "
+                        f"{display_path}:{line_number}"
+                    )
+
+                if (
+                    PAIR_DIRECTORIES.intersection(path.parts)
+                    and LEGACY_MATH_DELIMITER_PATTERN.search(line)
+                ):
+                    failures.append(
+                        "Use $...$ or $$...$$ instead of legacy LaTeX delimiters: "
+                        f"{display_path}:{line_number}"
+                    )
 
         if path.name == README_NAME:
             failures.extend(validate_bilingual_readme(path, content))

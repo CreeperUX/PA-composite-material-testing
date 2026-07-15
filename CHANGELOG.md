@@ -31,6 +31,7 @@ This project follows Semantic Versioning where practical:
 - Updated the language check to validate bilingual README structure while keeping other authored content English or German.
 - Organized separate English and Chinese flexural documents under matching `en/` and `zh/` directories.
 - Aligned paired flexural documents section by section and extended the language check to require matching headings, tables, fenced blocks, displayed equations, lists, and navigation links.
+- Removed unrenderable internal citation placeholders from the paired thickness-normalization research documents and converted their mathematics to GitHub-compatible Markdown delimiters.
 - Expanded the repository overview and storage policy to match the revised project scope.
 
 ## [0.1.2] - 2026-07-09
