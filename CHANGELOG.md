@@ -16,6 +16,7 @@ This project follows Semantic Versioning where practical:
 - Added section-level README indexes and Git attributes for engineering binary formats.
 - Added a repository-language policy and an automated language check.
 - Added 14 hash-verified STEP export copies, grouped by fixture or specimen, with an integrity manifest.
+- Added an English-first Chinese reading-support section to every README.
 
 ### Changed
 
@@ -25,6 +26,7 @@ This project follows Semantic Versioning where practical:
 - Kept German third-party reports and original German machine exports unchanged.
 - Kept native Inventor working files and non-English formatted workbooks outside Git.
 - Restricted CAD publication to copied STEP exports so native working files remain unchanged.
+- Updated the language check to validate bilingual README structure while keeping other authored content English or German.
 - Expanded the repository overview and storage policy to match the revised project scope.
 
 ## [0.1.2] - 2026-07-09

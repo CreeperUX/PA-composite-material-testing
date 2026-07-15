@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Reject Chinese characters in tracked paths and repository text files."""
+"""Enforce English/German content with structured bilingual README files."""
 
 from __future__ import annotations
 
@@ -26,6 +26,9 @@ TEXT_SUFFIXES = {
     ".yml",
 }
 TEXT_FILENAMES = {"VERSION"}
+README_NAME = "README.md"
+ENGLISH_HEADING = "## English"
+CHINESE_HEADING = "## \u4e2d\u6587"
 
 
 def tracked_paths() -> list[Path]:
@@ -39,6 +42,42 @@ def tracked_paths() -> list[Path]:
 
 def is_text_file(path: Path) -> bool:
     return path.name in TEXT_FILENAMES or path.suffix.lower() in TEXT_SUFFIXES
+
+
+def validate_bilingual_readme(path: Path, content: str) -> list[str]:
+    """Validate the required English-first, Chinese-second README structure."""
+    failures: list[str] = []
+    display_path = path.as_posix()
+    english_index = content.find(ENGLISH_HEADING)
+    chinese_index = content.find(CHINESE_HEADING)
+
+    if english_index < 0:
+        failures.append(f"README is missing {ENGLISH_HEADING!r}: {display_path}")
+    if chinese_index < 0:
+        failures.append(f"README is missing {CHINESE_HEADING!r}: {display_path}")
+    if failures:
+        return failures
+
+    if english_index >= chinese_index:
+        failures.append(
+            f"README must place English before Chinese: {display_path}"
+        )
+        return failures
+
+    english_section = content[english_index + len(ENGLISH_HEADING):chinese_index]
+    chinese_section = content[chinese_index + len(CHINESE_HEADING):]
+    if not english_section.strip():
+        failures.append(f"README English section is empty: {display_path}")
+    if HAN_PATTERN.search(english_section):
+        failures.append(
+            f"README English section contains Chinese text: {display_path}"
+        )
+    if not HAN_PATTERN.search(chinese_section):
+        failures.append(
+            f"README Chinese section has no Chinese reading-support text: {display_path}"
+        )
+
+    return failures
 
 
 def main() -> int:
@@ -58,6 +97,10 @@ def main() -> int:
             failures.append(f"Text file is not valid UTF-8: {display_path}")
             continue
 
+        if path.name == README_NAME:
+            failures.extend(validate_bilingual_readme(path, content))
+            continue
+
         for line_number, line in enumerate(content.splitlines(), start=1):
             if HAN_PATTERN.search(line):
                 failures.append(
@@ -70,7 +113,10 @@ def main() -> int:
             print(f"- {failure}")
         return 1
 
-    print("Repository language check passed: tracked paths and text are English/German only.")
+    print(
+        "Repository language check passed: technical content is English/German, "
+        "and README files are English-first bilingual documents."
+    )
     return 0
 
 
