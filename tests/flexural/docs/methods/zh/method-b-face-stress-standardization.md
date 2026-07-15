@@ -1,5 +1,7 @@
 # 方法 B：表层应力标准化
 
+[English](../en/method-b-face-stress-standardization.md) | [中文](method-b-face-stress-standardization.md)
+
 ## 1. 方法目的
 
 该方法用于对不同厚度试样的三点弯曲结果进行厚度归一化。对于本测试材料，试样总厚度约为 `1.8-2.5 mm`，表层为 `4 层碳纤维`。如果直接比较常规三点弯公式得到的表观弯曲强度，结果会明显受到试样厚度差异影响。

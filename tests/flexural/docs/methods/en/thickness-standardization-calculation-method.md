@@ -139,7 +139,14 @@ t_{\mathrm{ply}}
 \frac{W_r}{\rho_r \times 1000}
 $$
 
-Here `FAW` and `W_r` are in `g/m²`, `rho_f` and `rho_r` are in `g/cm³`, and the result is in `mm`.
+where:
+
+- `FAW` is the areal weight of one fiber ply in `g/m²`.
+- `rho_f` is the fiber density in `g/cm³`.
+- `V_f` is the cured fiber-volume fraction.
+- `W_r` is the resin-powder or coating areal weight of one ply in `g/m²`.
+- `rho_r` is the resin density in `g/cm³`.
+- The formula returns a result in `mm`.
 
 With the default values:
 

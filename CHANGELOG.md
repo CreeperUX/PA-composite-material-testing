@@ -18,6 +18,7 @@ This project follows Semantic Versioning where practical:
 - Added 14 hash-verified STEP export copies, grouped by fixture or specimen, with an integrity manifest.
 - Added an English-first Chinese reading-support section to every README.
 - Restored Chinese flexural reports and method notes to version control.
+- Added complete English translations for every Chinese flexural Markdown document.
 
 ### Changed
 
@@ -29,6 +30,7 @@ This project follows Semantic Versioning where practical:
 - Restricted CAD publication to copied STEP exports so native working files remain unchanged.
 - Updated the language check to validate bilingual README structure while keeping other authored content English or German.
 - Organized separate English and Chinese flexural documents under matching `en/` and `zh/` directories.
+- Aligned paired flexural documents section by section and extended the language check to require matching headings, tables, fenced blocks, displayed equations, lists, and navigation links.
 - Expanded the repository overview and storage policy to match the revised project scope.
 
 ## [0.1.2] - 2026-07-09

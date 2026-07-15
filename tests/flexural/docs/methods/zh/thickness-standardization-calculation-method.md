@@ -39,20 +39,24 @@
 
 ## 3. 当前材料属性与表层厚度估算
 
-材料属性文件夹中的两份织物分析报告给出了当前碳纤维表层材料的基础参数，可用于在缺少实测表层厚度时估算本方法所需的单侧表层厚度 `t`。
+[`materials/fabric-reports`](../../../../../materials/fabric-reports/) 中的两份织物分析报告给出了当前碳纤维表层材料的基础参数，可用于在缺少实测表层厚度时估算本方法所需的单侧表层厚度 `t`。
 
 ### 3.1 物理数值模块
 
 本模块只列出后续计算直接使用的物理数值，便于在报告、网页工具和计算表之间核对。
 
-材料命名约定：本文档中 `1x1` 对应 Plain / Leinwand 平纹织物，`2x2` 对应 Twill / Köper 斜纹织物；未特别说明的常规碳布按 `3K` 碳纤维织物记录。
+材料命名约定：
+
+- `1x1`：Plain / Leinwand 平纹织物。
+- `2x2`：Twill / Köper 斜纹织物。
+- `3K`：未特别说明时指常规 3K 碳纤维织物。
 
 **材料报告原始数值**
 
 | 来源文件 | 织物类型 | 原布面密度 FAW | 总面密度 | 树脂/粉末重量 | 纤维密度 | 纤维材料 |
 |---|---|---:|---:|---:|---:|---|
-| `ECC07230189 Gewebeanalyse Entwicklung Twill.pdf` | Twill / Köper | `131.8 g/m²` | `140.1 g/m²` | `8.3 g/m²` | `1.78 g/cm³` | Tenax-E IMS65 24K E23 |
-| `ECC07230190 Gewebeanalyse Entwicklung Playnwoven.pdf` | Plain / Leinwand | `134.0 g/m²` | `142.3 g/m²` | `8.3 g/m²` | `1.78 g/cm³` | Tenax-E IMS65 24K E23 |
+| [`ECC07230189 Gewebeanalyse Entwicklung Twill.pdf`](<../../../../../materials/fabric-reports/ECC07230189 Gewebeanalyse Entwicklung Twill.pdf>) | Twill / Köper | `131.8 g/m²` | `140.1 g/m²` | `8.3 g/m²` | `1.78 g/cm³` | Tenax-E IMS65 24K E23 |
+| [`ECC07230190 Gewebeanalyse Entwicklung Playnwoven.pdf`](<../../../../../materials/fabric-reports/ECC07230190 Gewebeanalyse Entwicklung Playnwoven.pdf>) | Plain / Leinwand | `134.0 g/m²` | `142.3 g/m²` | `8.3 g/m²` | `1.78 g/cm³` | Tenax-E IMS65 24K E23 |
 
 **计算默认输入**
 
@@ -91,8 +95,8 @@
 
 | 材料编码 | 材料名称 | 织物/丝束说明 | 数据来源 | 原布面密度 FAW | 总面密度 | 树脂/粉末重量 | 纤维密度 | 纤维材料/牌号 | 数据状态 |
 |---|---|---|---|---:|---:|---:|---:|---|---|
-| `1x1` | Plain / Leinwand | 平纹织物 | `ECC07230190 Gewebeanalyse Entwicklung Playnwoven.pdf` | `134.0 g/m²` | `142.3 g/m²` | `8.3 g/m²` | `1.78 g/cm³` | Tenax-E IMS65 24K E23 | 报告值 |
-| `2x2` | Twill / Köper | 斜纹织物 | `ECC07230189 Gewebeanalyse Entwicklung Twill.pdf` | `131.8 g/m²` | `140.1 g/m²` | `8.3 g/m²` | `1.78 g/cm³` | Tenax-E IMS65 24K E23 | 报告值 |
+| `1x1` | Plain / Leinwand | 平纹织物 | [`ECC07230190...Playnwoven.pdf`](<../../../../../materials/fabric-reports/ECC07230190 Gewebeanalyse Entwicklung Playnwoven.pdf>) | `134.0 g/m²` | `142.3 g/m²` | `8.3 g/m²` | `1.78 g/cm³` | Tenax-E IMS65 24K E23 | 报告值 |
+| `2x2` | Twill / Köper | 斜纹织物 | [`ECC07230189...Twill.pdf`](<../../../../../materials/fabric-reports/ECC07230189 Gewebeanalyse Entwicklung Twill.pdf>) | `131.8 g/m²` | `140.1 g/m²` | `8.3 g/m²` | `1.78 g/cm³` | Tenax-E IMS65 24K E23 | 报告值 |
 | `3K` | 常规碳布 / Roving | 非 Tape 型 3K 碳纤维织物 | 外部供应商公开资料 | `200-210 g/m²` | 干布约 `200-210 g/m²` | 未含粉末 | `1.78 g/cm³` | 3K 碳纤维，具体牌号随供应商变化 | 公开资料确认的典型值 |
 
 基于单侧 4 层表层假设，可得到各材料当前用于本方法的厚度参数：
