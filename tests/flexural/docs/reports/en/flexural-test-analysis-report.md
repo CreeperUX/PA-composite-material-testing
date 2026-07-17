@@ -218,13 +218,11 @@ In addition, specimen `3k-08` has a thickness of `1.94 mm`, which is clearly low
 
 ## 8. Conclusions
 
-1. The raw apparent flexural strength shows Roving higher than Plain and Twill, but the difference decreases substantially after D7249 standardization. This indicates that thickness and core geometry are important influencing factors in this dataset.
-2. With the current face-thickness estimates, the absolute standardized peak values are close: Roving `254.7 MPa`, Plain `247.7 MPa`, and Twill `247.0 MPa`. Roving is slightly higher, but its advantage is only about `3%`.
-3. For practical panel applications, specific performance per unit cross-sectional density is recommended as the main comparison metric. After normalization using Roving `160` and Plain/Twill `130`, the peak specific performance of Plain and Twill is about `120%` of Roving, and the yield specific performance is about `123-124%` of Roving.
-4. In terms of cross-sectional-density efficiency, Plain and Twill are clearly better than Roving. Plain has the highest initial-slope specific performance, while Twill has a slightly higher yield specific performance. If lightweight panel efficiency is prioritized, Plain/Twill are the better choices.
-5. From the QC consistency perspective, Plain has the lowest average CV of the key metrics at `8.3%`; Twill is close at `8.6%`; Roving is weaker at `10.4%`. If batch stability is required, Plain/Twill remain preferable to Roving.
-6. Considering both specific performance and QC consistency, Plain is the most balanced option. Twill performs well in yield specific performance and peak consistency, but its curve-area scatter is large. Roving has a slightly higher absolute peak value, but it does not lead in density-specific efficiency or consistency.
-7. Specimen `3k-08` and the large scatter in Twill curve area should be flagged for review in the final report to avoid over-interpreting single-specimen anomalies or test-termination effects.
+1. The raw apparent flexural strength shows Roving higher than Plain and Twill, but the difference decreases substantially after D7249 standardization. Thickness and core geometry are therefore important factors in this dataset; raw `Standard Stress [MPa]` must not directly rank sandwich-panel materials.
+2. The standardized peak values of Plain and Twill are `247.7 ± 21.5 MPa` and `247.0 ± 17.6 MPa`, a difference of about `0.3%`; Twill's mean yield is only about `1.1%` higher. These differences are smaller than within-group scatter, so the current three-point data do not support a conclusion that Plain or Twill has a definite strength advantage.
+3. Plain has approximately `2.7%` higher initial slope and density-specific initial slope than Twill, with a slightly lower key-QC mean CV (`8.3%` versus `8.6%`). For panels governed by large flat-area stiffness, in-service deflection, and stable batch output, Plain is therefore the more robust baseline option.
+4. The density-specific peak values of Plain and Twill are about `120%` of Roving, and their density-specific yield values are about `123-124%` of Roving, making both attractive for lightweight screening. Coupon efficiency, however, does not replace verification of full-panel deflection, local buckling, core shear, face-core debonding, or connection regions.
+5. For a large sandwich panel, core thickness, actual face thickness, face-core bonding, and manufacturing defects are expected to affect flexural rigidity and failure risk more strongly than the few-percent coupon mean difference between Plain and Twill. Final material selection must include design load, allowable deflection, geometric curvature, manufacturing yield, and quality-control capability.
 
 ## 9. Follow-Up Work
 
