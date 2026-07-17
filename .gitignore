@@ -19,8 +19,35 @@
 *.log
 *.err.log
 *.tmp
+*.bak
+*.lck
+*.lock
 ~$*
+
+# Operating-system metadata
+.DS_Store
+Thumbs.db
+desktop.ini
 
 # Autodesk backup folders
 OldVersions/
 **/OldVersions/
+
+# Local native CAD workspace (not uploaded to GitHub)
+/cad/**
+!/cad/README.md
+*.dwg
+*.iam
+*.idw
+*.ipj
+*.ipt
+*.stp
+*.step
+
+# Curated, read-only STEP publication copies
+!/cad/step/
+!/cad/step/**/
+!/cad/step/**/*.stp
+!/cad/step/**/*.step
+!/cad/step/README.md
+!/cad/step/SHA256SUMS.txt

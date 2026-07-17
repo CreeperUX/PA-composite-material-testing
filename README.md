@@ -1,85 +1,103 @@
 # PA Composite Material Testing
 
-English | 中文
+[English](#english) | [中文](#中文)
 
 ## English
 
-Lightweight project assets for PA composite material testing.
+This repository contains the lightweight, version-controlled assets for the PA composite-material testing project: material-property reports, flexural and impact-test records, processed data, analysis notes, browser-based analysis tools, and curated STEP exports.
 
-The currently tracked scope focuses on flexural testing. The repository stores analysis reports, method notes, processed result tables, exported PDFs, CSV summaries, and the local browser-based HTML analysis tool.
+### Repository map
 
-### Contents
+```text
+.
+├── cad/
+│   ├── README.md                 Native-CAD and publication policy
+│   └── step/                     Curated neutral-format STEP exports
+├── materials/
+│   └── fabric-reports/           Supplier and fabric-analysis reports
+├── tests/
+│   ├── flexural/                 Analysis, reports, forms, and machine exports
+│   └── impact/                   Impact-test calculation tools
+├── docs/
+│   └── language-policy.md        Repository language requirements
+├── CHANGELOG.md
+└── VERSION
+```
 
-- Flexural test analysis reports and method notes.
-- Processed CSV and spreadsheet result summaries.
-- Exported PDF test outputs.
-- A single-file HTML analysis tool for local data exploration and figure export.
+Detailed indexes are available in [`cad/README.md`](cad/README.md), [`materials/README.md`](materials/README.md), and [`tests/README.md`](tests/README.md).
 
-### Analysis Tool
+### Flexural analysis
 
-The HTML analysis tool runs locally in a browser and does not require a backend service. Its default interface language is English. Chinese remains available through the language selector or the `?lang=zh` URL parameter.
+Open [`tests/flexural/analysis/data-analysis-tool.html`](tests/flexural/analysis/data-analysis-tool.html) in a browser. The default [`data-analysis.csv`](tests/flexural/analysis/data-analysis.csv) is stored beside the tool. If a browser blocks local `fetch` requests, select the CSV manually or serve the directory through a local HTTP server.
 
-### Versioning
+### CAD usage
 
-The repository uses `VERSION` for the current repository version and `CHANGELOG.md` for release notes. Update both files whenever the analysis tool, data workflow, reports, or repository documentation change in a way that should be traceable.
+Native Autodesk Inventor files, working drawings, and other CAD working assets remain local and are intentionally ignored. A curated set of hash-verified STEP export copies is published under [`cad/step/`](cad/step/README.md). Preparing this publication set does not move or rewrite the working CAD files.
 
-Current repository version: `0.1.2`.
+### Data-storage policy
 
-Version numbers follow Semantic Versioning where practical:
+Large or working datasets are intentionally excluded from Git:
 
-- MAJOR version changes for incompatible workflow or data-format changes.
-- MINOR version changes for new analysis features or substantial reporting improvements.
-- PATCH version changes for fixes, wording updates, and documentation-only updates.
+- camera RAW files and photo exports (`*.ARW`, `*.JPG`, `*.JPEG`);
+- CT reconstructions and image slices (`*.rek`, `*.tif`, `*.tiff`);
+- native CAD working files and non-published CAD exports;
+- RAW sidecars, local logs, temporary files, and Autodesk `OldVersions` folders;
+- formatted workbooks that have not yet been safely converted to English or German.
 
-### Data Storage Policy
+Keep raw data in OneDrive or institutional storage. Use Git LFS, Zenodo, OSF, or an equivalent large-data archive only when remote versioned storage is required.
 
-Large raw datasets from the wider local project are intentionally not committed:
+### Language and versioning
 
-- Camera RAW files and photo exports (`*.ARW`, `*.JPG`, `*.JPEG`).
-- CT reconstruction files (`*.rek`).
-- CT image slices (`*.tif`, `*.tiff`).
-- RAW photo sidecars (`*.xmp`).
-- Local logs and Autodesk backup folders.
+Repository-authored technical content uses English, while original German laboratory and supplier sources remain unchanged. Every README provides an English section first and a Chinese reading-support section second. Separate translated documents use matching filenames in sibling `en/` and `zh/` directories. See [`docs/language-policy.md`](docs/language-policy.md).
 
-The full local project folder was about 17.4 GB when this repository was created, with several files larger than GitHub's normal file limit. Keep large raw files in the original local or OneDrive storage, or move them to a dedicated large-data solution such as Git LFS, Zenodo, OSF, or institutional storage if remote archival is required.
+The current repository version is `0.2.0`. `VERSION` stores the version number and `CHANGELOG.md` records traceable changes. Semantic Versioning is followed where practical.
 
 ## 中文
 
-本仓库用于保存 PA 复合材料测试项目中的轻量级资料。
+本仓库保存 PA 复合材料测试项目中适合版本控制的轻量资料，包括材料性能报告、弯折与冲击试验记录、处理后数据、分析说明、浏览器端分析工具，以及经过整理的 STEP 导出文件。
 
-当前已纳入版本管理的范围以弯折测试为主，包括分析报告、方法说明、处理后的结果表格、导出的 PDF、CSV 汇总数据，以及可在本地浏览器运行的 HTML 数据分析工具。
+### 仓库结构
 
-### 仓库内容
+```text
+.
+├── cad/
+│   ├── README.md                 原生 CAD 与发布规则
+│   └── step/                     整理后的中性格式 STEP 导出文件
+├── materials/
+│   └── fabric-reports/           供应商与织物分析报告
+├── tests/
+│   ├── flexural/                 分析、报告、表单与设备导出结果
+│   └── impact/                   冲击试验计算工具
+├── docs/
+│   └── language-policy.md        仓库语言要求
+├── CHANGELOG.md
+└── VERSION
+```
 
-- 弯折测试分析报告和方法说明。
-- 处理后的 CSV 与电子表格结果汇总。
-- 导出的 PDF 测试结果。
-- 用于本地数据查看和图表导出的单文件 HTML 分析工具。
+详细目录说明见 [`cad/README.md`](cad/README.md)、[`materials/README.md`](materials/README.md) 和 [`tests/README.md`](tests/README.md)。
 
-### 分析工具
+### 弯折数据分析
 
-HTML 分析工具可直接在浏览器中本地运行，不需要后端服务。默认界面语言为英语；如需中文，可通过界面语言选择器切换，或在 URL 后添加 `?lang=zh`。
+使用浏览器打开 [`tests/flexural/analysis/data-analysis-tool.html`](tests/flexural/analysis/data-analysis-tool.html)。默认数据文件 [`data-analysis.csv`](tests/flexural/analysis/data-analysis.csv) 与工具位于同一目录。如果浏览器阻止本地 `fetch` 请求，可以手动选择 CSV 文件，或通过本地 HTTP 服务打开该目录。
 
-### 版本管理
+### CAD 使用说明
 
-仓库使用 `VERSION` 记录当前版本，并使用 `CHANGELOG.md` 记录更新日志。当分析工具、数据流程、报告或仓库文档发生需要追踪的变化时，应同步更新这两个文件。
+Autodesk Inventor 原生文件、工作图纸和其他 CAD 工作资料仅保留在本地，并由 Git 忽略。经过整理和哈希验证的 STEP 发布副本位于 [`cad/step/`](cad/step/README.md)。创建发布副本时不会移动或改写工作用 CAD 文件。
 
-当前仓库版本：`0.1.2`。
+### 数据存储规则
 
-版本号尽量遵循语义化版本规则：
+以下大型数据或工作文件不纳入 Git：
 
-- 主版本号用于不兼容的流程或数据格式变化。
-- 次版本号用于新增分析功能或较大的报告改进。
-- 修订版本号用于修复、文字调整和仅文档类更新。
+- 相机 RAW 文件及照片导出（`*.ARW`、`*.JPG`、`*.JPEG`）；
+- CT 重建数据和图像切片（`*.rek`、`*.tif`、`*.tiff`）；
+- 原生 CAD 工作文件及未发布的 CAD 导出文件；
+- RAW 附属文件、本地日志、临时文件及 Autodesk `OldVersions` 目录；
+- 尚未在不影响公式或格式的前提下转换为英语或德语的工作簿。
 
-### 数据存储策略
+原始数据应保存在 OneDrive 或学校/机构存储中。只有在确实需要远程版本管理时，才使用 Git LFS、Zenodo、OSF 或同类大文件存储方案。
 
-本地项目中的大型原始数据不会提交到该仓库：
+### 语言与版本管理
 
-- 相机 RAW 文件和照片导出文件（`*.ARW`、`*.JPG`、`*.JPEG`）。
-- CT 重建文件（`*.rek`）。
-- CT 图像切片（`*.tif`、`*.tiff`）。
-- RAW 照片的附属文件（`*.xmp`）。
-- 本地日志和 Autodesk 备份文件夹。
+仓库自行编写的技术内容以英语为准，德语实验室报告和供应商原始资料保持不变。所有 README 均采用英语在前、中文阅读支持在后的结构。独立翻译文档使用相同文件名，并分别存放在同级 `en/` 与 `zh/` 目录中。详细规则见 [`docs/language-policy.md`](docs/language-policy.md)。
 
-创建仓库时，完整本地项目文件夹约为 17.4 GB，其中包含多个超过 GitHub 普通文件限制的文件。大型原始文件应继续保存在本地或 OneDrive 中；如果需要远程归档，建议使用 Git LFS、Zenodo、OSF 或学校/机构提供的大文件存储方案。
+当前仓库版本为 `0.2.0`。`VERSION` 保存版本号，`CHANGELOG.md` 记录可追踪的变更；在适用情况下遵循语义化版本规则。
